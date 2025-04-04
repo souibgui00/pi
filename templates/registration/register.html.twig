@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - WoOx Travel{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/back/css/styles.min.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+    <section class="inscription" style="margin-top: 100px; background-color: #f8f9fa;">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8 col-sm-10">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h2 class="titre-formulaire">Inscription</h2>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(registrationForm, {'attr': {'class': 'form-inscription', 'id': 'form-inscription'}}) }}
+                            <div class="form-group mb-3">
+                                {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Votre Nom'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Votre Prénom'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_widget(registrationForm.nationalite, {'attr': {'class': 'form-control', 'placeholder': 'Votre Nationalité'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_widget(registrationForm.genre, {'attr': {'class': 'form-control', 'placeholder': 'Votre Genre'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre Email'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_widget(registrationForm.mot_de_passe, {'attr': {'class': 'form-control', 'placeholder': 'Mot de Passe'}}) }}
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
+                            </div>
+                            {{ form_end(registrationForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('assets/back/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/back/vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/back/js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('assets/back/js/app.min.js') }}"></script>
+    <script src="{{ asset('assets/back/js/simplebar.js') }}"></script>
+{% endblock %}

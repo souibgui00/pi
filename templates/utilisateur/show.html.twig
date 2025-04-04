@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Utilisateur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ utilisateur.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ utilisateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ utilisateur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ utilisateur.role ? utilisateur.role|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Mot_de_passe</th>
+                <td>{{ utilisateur.motDePasse }}</td>
+            </tr>
+            <tr>
+                <th>Nationalite</th>
+                <td>{{ utilisateur.nationalite }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ utilisateur.genre }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ utilisateur.email }}</td>
+            </tr>
+            <tr>
+                <th>Permission</th>
+                <td>{{ utilisateur.permission ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ utilisateur.statut ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Verification_token</th>
+                <td>{{ utilisateur.verificationToken }}</td>
+            </tr>
+            <tr>
+                <th>Is_verified</th>
+                <td>{{ utilisateur.isVerified ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_utilisateur_index') }}">back to list</a>
+
+    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+
+    {{ include('utilisateur/_delete_form.html.twig') }}
+{% endblock %}

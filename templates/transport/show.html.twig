@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transport{% endblock %}
+
+{% block body %}
+    <h1>Transport</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ transport.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ transport.date ? transport.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>HeureDepart</th>
+                <td>{{ transport.heureDepart ? transport.heureDepart|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PointDepart</th>
+                <td>{{ transport.pointDepart }}</td>
+            </tr>
+            <tr>
+                <th>Destination</th>
+                <td>{{ transport.destination }}</td>
+            </tr>
+            <tr>
+                <th>Vehicule</th>
+                <td>{{ transport.vehicule }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transport_index') }}">back to list</a>
+
+    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
+
+    {{ include('transport/_delete_form.html.twig') }}
+{% endblock %}

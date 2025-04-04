@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ContratSponsoring{% endblock %}
+
+{% block body %}
+    <h1>ContratSponsoring</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ contrat_sponsoring.id }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ contrat_sponsoring.montant }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ contrat_sponsoring.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_contrat_sponsoring_index') }}">back to list</a>
+
+    <a href="{{ path('app_contrat_sponsoring_edit', {'id': contrat_sponsoring.id}) }}">edit</a>
+
+    {{ include('contrat_sponsoring/_delete_form.html.twig') }}
+{% endblock %}

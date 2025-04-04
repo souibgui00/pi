@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supportpermission{% endblock %}
+
+{% block body %}
+    <h1>Supportpermission</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ supportpermission.id }}</td>
+            </tr>
+            <tr>
+                <th>Permission_type</th>
+                <td>{{ supportpermission.permissionType }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ supportpermission.role }}</td>
+            </tr>
+            <tr>
+                <th>StartDate</th>
+                <td>{{ supportpermission.startDate ? supportpermission.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndDate</th>
+                <td>{{ supportpermission.endDate ? supportpermission.endDate|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_supportpermission_index') }}">back to list</a>
+
+    <a href="{{ path('app_supportpermission_edit', {'id': supportpermission.id}) }}">edit</a>
+
+    {{ include('supportpermission/_delete_form.html.twig') }}
+{% endblock %}

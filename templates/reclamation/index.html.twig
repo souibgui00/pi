@@ -1,0 +1,39 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Reclamation {% endblock %}
+
+{% block body %}
+    <h1>Reclamation </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Message</th>
+                <th>Image</th>
+                <th>Pass</th>
+                <th>Statut</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.message }}</td>
+                <td>{{ reclamation.image }}</td>
+                <td>{{ reclamation.pass }}</td>
+                <td>{{ reclamation.statut }}</td>
+                <td>
+                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">show</a>
+                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+{% endblock %}

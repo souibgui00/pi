@@ -1,0 +1,41 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Produitsponsoring {% endblock %}
+
+{% block body %}
+    <h1>Produitsponsoring </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Quantite</th>
+                <th>Prix</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produitsponsoring in produitsponsorings %}
+            <tr>
+                <td>{{ produitsponsoring.nom }}</td>
+                <td>{{ produitsponsoring.description }}</td>
+                <td>{{ produitsponsoring.quantite }}</td>
+                <td>{{ produitsponsoring.prix }}</td>
+                <td>{{ produitsponsoring.image }}</td>
+                <td>
+                    <a href="{{ path('app_produitsponsoring_show', {'id': produitsponsoring.id}) }}">show</a>
+                    <a href="{{ path('app_produitsponsoring_edit', {'id': produitsponsoring.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_produitsponsoring_new') }}">Create new</a>
+{% endblock %}

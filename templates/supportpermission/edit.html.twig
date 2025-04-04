@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Supportpermission{% endblock %}
+
+{% block body %}
+    <h1>Edit Supportpermission</h1>
+
+    {{ include('supportpermission/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_supportpermission_index') }}">back to list</a>
+
+    {{ include('supportpermission/_delete_form.html.twig') }}
+{% endblock %}

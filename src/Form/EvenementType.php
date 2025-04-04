@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Evenement;
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +25,7 @@ class EvenementType extends AbstractType
             ->add('image')
             ->add('type')
             ->add('utilisateur', EntityType::class, [
-                'class' => Utilisateur::class,
+                'class' => User::class,
                 'choice_label' => 'id',
             ])
         ;

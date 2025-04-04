@@ -1,0 +1,41 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Transport {% endblock %}
+
+{% block body %}
+    <h1>Transport </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>HeureDepart</th>
+                <th>PointDepart</th>
+                <th>Destination</th>
+                <th>Vehicule</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transport in transports %}
+            <tr>
+                <td>{{ transport.date ? transport.date|date('Y-m-d') : '' }}</td>
+                <td>{{ transport.heureDepart ? transport.heureDepart|date('H:i:s') : '' }}</td>
+                <td>{{ transport.pointDepart }}</td>
+                <td>{{ transport.destination }}</td>
+                <td>{{ transport.vehicule }}</td>
+                <td>
+                    <a href="{{ path('app_transport_show', {'id': transport.id}) }}">show</a>
+                    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transport_new') }}">Create new</a>
+{% endblock %}

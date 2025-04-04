@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Evenement;
 use App\Entity\Participation;
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +21,7 @@ class ParticipationType extends AbstractType
             ->add('motif_annulation')
             ->add('moyen_paiement')
             ->add('utilisateur', EntityType::class, [
-                'class' => Utilisateur::class,
+                'class' => User::class,
                 'choice_label' => 'id',
             ])
             ->add('evenement', EntityType::class, [

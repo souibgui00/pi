@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Produitsponsoring{% endblock %}
+
+{% block body %}
+    <h1>Create new Produitsponsoring</h1>
+
+    {{ include('produitsponsoring/_form.html.twig') }}
+
+    <a href="{{ path('app_produitsponsoring_index') }}">back to list</a>
+{% endblock %}

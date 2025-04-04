@@ -1,0 +1,35 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}SuiviReclamation {% endblock %}
+
+{% block body %}
+    <h1>SuiviReclamation </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Commentaire</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for suivi_reclamation in suivi_reclamations %}
+            <tr>
+                <td>{{ suivi_reclamation.status }}</td>
+                <td>{{ suivi_reclamation.commentaire }}</td>
+                <td>
+                    <a href="{{ path('app_suivi_reclamation_show', {'id': suivi_reclamation.id}) }}">show</a>
+                    <a href="{{ path('app_suivi_reclamation_edit', {'id': suivi_reclamation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_suivi_reclamation_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Supportpermission{% endblock %}
+
+{% block body %}
+    <h1>Create new Supportpermission</h1>
+
+    {{ include('supportpermission/_form.html.twig') }}
+
+    <a href="{{ path('app_supportpermission_index') }}">back to list</a>
+{% endblock %}

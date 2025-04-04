@@ -1,0 +1,39 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Supportpermission {% endblock %}
+
+{% block body %}
+    <h1>Supportpermission </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Permission_type</th>
+                <th>Role</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for supportpermission in supportpermissions %}
+            <tr>
+                <td>{{ supportpermission.permissionType }}</td>
+                <td>{{ supportpermission.role }}</td>
+                <td>{{ supportpermission.startDate ? supportpermission.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ supportpermission.endDate ? supportpermission.endDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_supportpermission_show', {'id': supportpermission.id}) }}">show</a>
+                    <a href="{{ path('app_supportpermission_edit', {'id': supportpermission.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_supportpermission_new') }}">Create new</a>
+{% endblock %}

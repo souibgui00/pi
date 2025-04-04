@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SuiviReclamation{% endblock %}
+
+{% block body %}
+    <h1>Create new SuiviReclamation</h1>
+
+    {{ include('suivi_reclamation/_form.html.twig') }}
+
+    <a href="{{ path('app_suivi_reclamation_index') }}">back to list</a>
+{% endblock %}
