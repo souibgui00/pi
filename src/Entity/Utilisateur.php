@@ -66,6 +66,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'utilisateur')]
     private Collection $reclamations;
 
+    #[ORM\OneToOne(mappedBy: 'utilisateur', targetEntity: Profil::class, cascade: ['persist', 'remove'])]
+    private ?Profil $profil = null;
+
     public function __construct()
     {
         $this->contratSponsorings = new ArrayCollection();
@@ -77,7 +80,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return $this->role;
+        $roles = $this->role;
+        // Garantir au moins ROLE_USER
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+        return array_unique($roles);
     }
 
     public function getPassword(): ?string
@@ -87,16 +95,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return (string) $this->email;
     }
 
     public function eraseCredentials(): void
     {
+        // Rien à effacer ici, mais méthode requise par l'interface
     }
 
     public function getSalt(): ?string
     {
-        return null;
+        return null; // Pas besoin de sel avec les hashers modernes
     }
 
     // Getters and setters
@@ -139,4 +148,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getReclamations(): Collection { return $this->reclamations; }
     public function addReclamation(Reclamation $reclamation): self { if (!$this->reclamations->contains($reclamation)) { $this->reclamations->add($reclamation); } return $this; }
     public function removeReclamation(Reclamation $reclamation): self { $this->reclamations->removeElement($reclamation); return $this; }
+
+    // Profil relationship
+    public function getProfil(): ?Profil
+    {
+        return $this->profil;
+    }
+
+    public function setProfil(?Profil $profil): self
+    {
+        $this->profil = $profil;
+        if ($profil && $profil->getUtilisateur() !== $this) {
+            $profil->setUtilisateur($this);
+        }
+        return $this;
+    }
 }

@@ -19,7 +19,7 @@ class ServiceType extends AbstractType
             ->add('cout')
             ->add('evenement', EntityType::class, [
                 'class' => Evenement::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
         ;
     }

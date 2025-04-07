@@ -1,38 +1,46 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Support{% endblock %}
 
 {% block body %}
-    <h1>Support</h1>
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Détails du Support</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ support.id }}</td>
-            </tr>
-            <tr>
-                <th>Url</th>
-                <td>{{ support.url }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ support.type }}</td>
-            </tr>
-            <tr>
-                <th>Id_evenementAssocie</th>
-                <td>{{ support.idEvenementAssocie }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ support.titre }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{{ support.titre }}</h6>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ support.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Url</th>
+                        <td>{{ support.url }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ support.type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Événement Associé</th>
+                        <td>{{ support.evenement ? support.evenement.nom : 'Aucun événement' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Titre</th>
+                        <td>{{ support.titre }}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-    <a href="{{ path('app_support_index') }}">back to list</a>
+                <a href="{{ path('app_support_index') }}" class="btn btn-secondary btn-user mt-3">Retour à la liste</a>
+                <a href="{{ path('app_support_edit', {'id': support.id}) }}" class="btn btn-primary btn-user mt-3">Modifier</a>
 
-    <a href="{{ path('app_support_edit', {'id': support.id}) }}">edit</a>
-
-    {{ include('support/_delete_form.html.twig') }}
+                {{ include('support/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

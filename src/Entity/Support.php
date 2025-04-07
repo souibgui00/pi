@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Repository\SupportRepository;
 
 #[ORM\Entity(repositoryClass: SupportRepository::class)]
@@ -16,6 +14,27 @@ class Support
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $url = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $type = null;
+
+    #[ORM\ManyToOne(targetEntity: Evenement::class)]
+    #[ORM\JoinColumn(name: 'id_evenement_associe', referencedColumnName: 'id', nullable: true)]
+    private ?Evenement $evenement = null;
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    private ?string $titre = null;
+
+    #[ORM\OneToMany(targetEntity: Supportpermission::class, mappedBy: 'support')]
+    private Collection $supportpermissions;
+
+    public function __construct()
+    {
+        $this->supportpermissions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -28,9 +47,6 @@ class Support
         return $this;
     }
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $url = null;
-
     public function getUrl(): ?string
     {
         return $this->url;
@@ -41,9 +57,6 @@ class Support
         $this->url = $url;
         return $this;
     }
-
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $type = null;
 
     public function getType(): ?string
     {
@@ -56,22 +69,16 @@ class Support
         return $this;
     }
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $id_evenementAssocie = null;
-
-    public function getId_evenementAssocie(): ?int
+    public function getEvenement(): ?Evenement
     {
-        return $this->id_evenementAssocie;
+        return $this->evenement;
     }
 
-    public function setId_evenementAssocie(?int $id_evenementAssocie): self
+    public function setEvenement(?Evenement $evenement): self
     {
-        $this->id_evenementAssocie = $id_evenementAssocie;
+        $this->evenement = $evenement;
         return $this;
     }
-
-    #[ORM\Column(type: 'string', nullable: false)]
-    private ?string $titre = null;
 
     public function getTitre(): ?string
     {
@@ -82,14 +89,6 @@ class Support
     {
         $this->titre = $titre;
         return $this;
-    }
-
-    #[ORM\OneToMany(targetEntity: Supportpermission::class, mappedBy: 'support')]
-    private Collection $supportpermissions;
-
-    public function __construct()
-    {
-        $this->supportpermissions = new ArrayCollection();
     }
 
     /**
@@ -116,17 +115,4 @@ class Support
         $this->getSupportpermissions()->removeElement($supportpermission);
         return $this;
     }
-
-    public function getIdEvenementAssocie(): ?int
-    {
-        return $this->id_evenementAssocie;
-    }
-
-    public function setIdEvenementAssocie(?int $id_evenementAssocie): static
-    {
-        $this->id_evenementAssocie = $id_evenementAssocie;
-
-        return $this;
-    }
-
 }

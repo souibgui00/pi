@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Evenement;
 use App\Entity\Support;
 use App\Form\SupportType;
 use App\Repository\SupportRepository;
@@ -14,11 +15,20 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/support')]
 final class SupportController extends AbstractController
 {
-    #[Route(name: 'app_support_index', methods: ['GET'])]
-    public function index(SupportRepository $supportRepository): Response
+    #[Route('/', name: 'app_support_index', methods: ['GET'])]
+    public function index(EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $supports = $entityManager->getRepository(Support::class)->findAll();
+        $evenements = [];
+        foreach ($supports as $support) {
+            if ($support->getEvenement()) {
+                $evenements[$support->getId()] = $entityManager->getRepository(Evenement::class)->find($support->getEvenement());
+            }
+        }
         return $this->render('support/index.html.twig', [
-            'supports' => $supportRepository->findAll(),
+            'supports' => $supports,
+            'evenements' => $evenements,
         ]);
     }
 

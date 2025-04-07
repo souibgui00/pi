@@ -44,14 +44,14 @@ class Transport
     }
 
     #[ORM\Column(type: 'time', nullable: true)]
-    private ?string $heureDepart = null;
+    private ?\DateTime $heureDepart = null;
 
-    public function getHeureDepart(): ?string
+    public function getHeureDepart(): ?\DateTime
     {
         return $this->heureDepart;
     }
 
-    public function setHeureDepart(?string $heureDepart): self
+    public function setHeureDepart(?\DateTime $heureDepart): self
     {
         $this->heureDepart = $heureDepart;
         return $this;

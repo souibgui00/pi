@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Utilisateur{% endblock %}
 
@@ -23,10 +23,7 @@
                 <th>Role</th>
                 <td>{{ utilisateur.role ? utilisateur.role|json_encode : '' }}</td>
             </tr>
-            <tr>
-                <th>Mot_de_passe</th>
-                <td>{{ utilisateur.motDePasse }}</td>
-            </tr>
+
             <tr>
                 <th>Nationalite</th>
                 <td>{{ utilisateur.nationalite }}</td>
@@ -46,10 +43,6 @@
             <tr>
                 <th>Statut</th>
                 <td>{{ utilisateur.statut ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Verification_token</th>
-                <td>{{ utilisateur.verificationToken }}</td>
             </tr>
             <tr>
                 <th>Is_verified</th>

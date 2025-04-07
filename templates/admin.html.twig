@@ -22,48 +22,101 @@
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('app_evenement_index') }}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('app_admin_dashboard') }}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
             <div class="sidebar-brand-text mx-3">Sahtek Event<sup></sup></div>
         </a>
         <hr class="sidebar-divider my-0">
+
+        <!-- Utilisateur -->
         <li class="nav-item active">
             <a class="nav-link" href="{{ path('app_utilisateur_index') }}">
                 <i class="fas fa-fw fa-calendar"></i>
                 <span>Utilisateur</span>
             </a>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ path('app_evenement_index') }}">
-                <i class="fas fa-fw fa-calendar"></i>
-                <span>Événement</span>
+
+        <!-- Evenement -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-evenement"
+               aria-expanded="false" aria-controls="collapse-evenement">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Evenement</span>
             </a>
+            <div id="collapse-evenement" class="collapse" aria-labelledby="heading-evenement" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des événements</h6>
+                    <a class="collapse-item" href="{{ path('app_evenement_index') }}">Événements</a>
+                    <a class="collapse-item" href="{{ path('app_participation_index') }}">Participation</a>
+                </div>
+            </div>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ path('app_support_index') }}">
-                <i class="fas fa-fw fa-calendar"></i>
+
+        <!-- Support -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-support"
+               aria-expanded="false" aria-controls="collapse-support">
+                <i class="fas fa-fw fa-cog"></i>
                 <span>Support</span>
             </a>
+            <div id="collapse-support" class="collapse" aria-labelledby="heading-support" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des supports</h6>
+                    <a class="collapse-item" href="{{ path('app_support_index') }}">Supports</a>
+                    <a class="collapse-item" href="{{ path('app_supportpermission_index') }}">Permissions</a>
+                </div>
+            </div>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ path('app_transport_index') }}">
-                <i class="fas fa-fw fa-calendar"></i>
-                <span>Transport</span>
+
+        <!-- Service -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-service"
+               aria-expanded="false" aria-controls="collapse-service">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Service</span>
             </a>
+            <div id="collapse-service" class="collapse" aria-labelledby="heading-service" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des services</h6>
+                    <a class="collapse-item" href="{{ path('app_transport_index') }}">Transport</a>
+                    <a class="collapse-item" href="{{ path('app_service_index') }}">Service</a>
+                </div>
+            </div>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ path('app_reclamation_index') }}">
-                <i class="fas fa-fw fa-calendar"></i>
+
+        <!-- Reclamation -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-reclamation"
+               aria-expanded="false" aria-controls="collapse-reclamation">
+                <i class="fas fa-fw fa-cog"></i>
                 <span>Reclamation</span>
             </a>
+            <div id="collapse-reclamation" class="collapse" aria-labelledby="heading-reclamation" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des réclamations</h6>
+                    <a class="collapse-item" href="{{ path('app_reclamation_index') }}">Réclamations</a>
+                    <a class="collapse-item" href="{{ path('app_feedback_index') }}">Feedback</a>
+                    <a class="collapse-item" href="{{ path('app_suivi_reclamation_index') }}">Suivi</a>
+                </div>
+            </div>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ path('app_contrat_sponsoring_index') }}">
-                <i class="fas fa-fw fa-calendar"></i>
-                <span>Contrat Sponsoring</span>
+
+        <!-- Produit sponsoring -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-sponsoring"
+               aria-expanded="false" aria-controls="collapse-sponsoring">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Produit sponsoring</span>
             </a>
+            <div id="collapse-sponsoring" class="collapse" aria-labelledby="heading-sponsoring" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion du sponsoring</h6>
+                    <a class="collapse-item" href="{{ path('app_contrat_sponsoring_index') }}">Contrats</a>
+                    <a class="collapse-item" href="{{ path('app_produitsponsoring_index') }}">Produits</a>
+                </div>
+            </div>
         </li>
 
         <hr class="sidebar-divider d-none d-md-block">
@@ -84,8 +137,26 @@
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
-                <!-- Bloc pour personnaliser la topbar -->
-                {% block topbar %}{% endblock %}
+                <!-- User Info and Logout -->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                {{ app.user ? (app.user.nom ~ ' ' ~ app.user.prenom) : 'Utilisateur' }}
+                            </span>
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="{{ path('app_logout') }}"
+                               data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Déconnexion
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             </nav>
             <!-- End of Topbar -->
 
@@ -102,7 +173,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright © Your Website {{ "now"|date("Y") }}</span>
+                        <span>Copyright © Sahtek Event {{ "now"|date("Y") }}</span>
                     </div>
                 </div>
             </footer>
@@ -117,6 +188,25 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Prêt à partir ?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Cliquez sur "Déconnexion" pour terminer votre session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                <a class="btn btn-primary" href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Bloc pour JS -->
 {% block js %}

@@ -3,23 +3,45 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}WoOx Travel - Événements{% endblock %}</title>
+    <title>{% block title %}Sahtek Event{% endblock %}</title>
 
-    <!-- Bloc pour CSS -->
     {% block css %}
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-        <!-- Bootstrap depuis le dossier local -->
         <link href="{{ asset('assets/front/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('assets/front/css/fontawesome.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/front/css/templatemo-woox-travel.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/front/css/owl.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/front/css/animate.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+        <style>
+            .header-area .main-nav .logo-btn {
+                display: inline-block;
+                padding: 10px 20px;
+                background: linear-gradient(90deg, #1f91aa, #1a6f81);
+                color: #fff;
+                font-size: 18px;
+                font-weight: 600;
+                font-family: 'Poppins', sans-serif;
+                text-decoration: none;
+                border-radius: 25px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                line-height: 1;
+            }
+            .header-area .main-nav .logo-btn:hover {
+                background: linear-gradient(90deg, #1a6f81, #1f91aa);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+                color: #fff;
+            }
+            .header-area .main-nav {
+                display: flex;
+                align-items: center;
+            }
+        </style>
     {% endblock %}
 </head>
 
 <body>
-<!-- Preloader -->
 <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
         <span class="dot"></span>
@@ -31,17 +53,22 @@
     </div>
 </div>
 
-<!-- Header Area -->
 <header class="header-area header-sticky">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <a href="{{ path('app_evenement_index') }}" class="logo">
-                        <img src="{{ asset('assets/front/images/logo.png') }}" alt="WoOx Travel">
-                    </a>
+                    <a href="{{ path('app_evenement_index_front') }}" class="logo-btn">SahtekEvent</a>
                     <ul class="nav">
-                        <li><a href="{{ path('app_evenement_index') }}" class="{% if app.request.attributes.get('_route') == 'app_front_evenement_index' %}active{% endif %}">Accueil</a></li>
+                        <li><a href="{{ path('app_evenement_index_front') }}" class="{% if app.request.attributes.get('_route') == 'app_evenement_index_front' %}active{% endif %}">Accueil</a></li>
+                        <li><a href="{{ path('app_my_participations') }}" class="{% if app.request.attributes.get('_route') == 'app_my_participations' %}active{% endif %}">Mes Participations</a></li>
+                        {% if app.user %}
+                            <li><a href="{{ path('app_profil_me') }}" class="{% if app.request.attributes.get('_route') == 'app_profil_me' %}active{% endif %}">Mon Profil</a></li>
+                            <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                        {% else %}
+                            <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                            <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                        {% endif %}
                     </ul>
                     <a class="menu-trigger">
                         <span>Menu</span>
@@ -52,26 +79,22 @@
     </div>
 </header>
 
-<!-- Contenu principal -->
 {% block body %}{% endblock %}
 
-<!-- Footer -->
 <footer>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright © {{ "now"|date("Y") }} <a href="#">WoOx Travel</a> Company. Tous droits réservés.
+                <p>Copyright © {{ "now"|date("Y") }} <a href="#">Sahtek Event</a>. Tous droits réservés.
                     <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a></p>
             </div>
         </div>
     </div>
 </footer>
 
-<!-- Bloc pour JS -->
 {% block js %}
-    <!-- jQuery et Bootstrap depuis les fichiers locaux -->
-    <script src="{{ asset('assets/front/vendor/jquery/jquery.min.js') }}"></script> <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/front/vendor/bootstrap/js/bootstrap.min.js') }}"></script> <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ asset('assets/front/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/front/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/isotope.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/owl-carousel.js') }}"></script>
     <script src="{{ asset('assets/front/js/wow.js') }}"></script>

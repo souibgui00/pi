@@ -1,26 +1,26 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Support {% endblock %}
+{% block title %}Support{% endblock %}
 
 {% block body %}
-    <h1>Support </h1>
+    <h1>Support</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Url</th>
-                <th>Type</th>
-                <th>Id_evenementAssocie</th>
-                <th>Titre</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Url</th>
+            <th>Type</th>
+            <th>Événement</th>
+            <th>Titre</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for support in supports %}
             <tr>
                 <td>{{ support.url }}</td>
                 <td>{{ support.type }}</td>
-                <td>{{ evenement.nom }}</td>
+                <td>{{ support.evenement ? support.evenement.nom : 'N/A' }}</td>
                 <td>{{ support.titre }}</td>
                 <td>
                     <a href="{{ path('app_support_show', {'id': support.id}) }}">show</a>
@@ -29,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

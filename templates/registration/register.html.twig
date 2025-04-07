@@ -1,60 +1,94 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Inscription - WoOx Travel</title>
 
-{% block title %}Inscription - WoOx Travel{% endblock %}
+    <!-- Custom fonts -->
+    <link href="{{ asset('assets/back/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-{% block css %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/back/css/styles.min.css') }}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-{% endblock %}
+    <!-- Custom styles -->
+    <link href="{{ asset('assets/back/css/sb-admin-2.min.css') }}" rel="stylesheet">
+</head>
 
-{% block body %}
-    <section class="inscription" style="margin-top: 100px; background-color: #f8f9fa;">
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 col-md-8 col-sm-10">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-primary text-white text-center">
-                            <h2 class="titre-formulaire">Inscription</h2>
+<body class="bg-gradient-primary">
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block">
+                    <img src="{{ asset('assets/back/img/register-bg.jpg') }}" alt="Register Image" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Créer un compte !</h1>
                         </div>
-                        <div class="card-body">
-                            {{ form_start(registrationForm, {'attr': {'class': 'form-inscription', 'id': 'form-inscription'}}) }}
-                            <div class="form-group mb-3">
-                                {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Votre Nom'}}) }}
+                        {{ form_start(registrationForm, {'attr': {'class': 'user'}}) }}
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label for="utilisateur_prenom" class="sr-only">Prénom</label>
+                                {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Prénom'}}) }}
+                                {{ form_errors(registrationForm.prenom) }}
                             </div>
-                            <div class="form-group mb-3">
-                                {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Votre Prénom'}}) }}
+                            <div class="col-sm-6">
+                                <label for="utilisateur_nom" class="sr-only">Nom</label>
+                                {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Nom'}}) }}
+                                {{ form_errors(registrationForm.nom) }}
                             </div>
-                            <div class="form-group mb-3">
-                                {{ form_widget(registrationForm.nationalite, {'attr': {'class': 'form-control', 'placeholder': 'Votre Nationalité'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="utilisateur_email" class="sr-only">Adresse Email</label>
+                            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Adresse Email'}}) }}
+                            {{ form_errors(registrationForm.email) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="utilisateur_nationalite" class="sr-only">Nationalité</label>
+                            {{ form_widget(registrationForm.nationalite, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Nationalité'}}) }}
+                            {{ form_errors(registrationForm.nationalite) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="utilisateur_genre" class="sr-only">Genre</label>
+                            {{ form_widget(registrationForm.genre, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Genre'}}) }}
+                            {{ form_errors(registrationForm.genre) }}
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <label for="utilisateur_mot_de_passe" class="sr-only">Mot de passe</label>
+                                {{ form_widget(registrationForm.mot_de_passe, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Mot de passe'}}) }}
+                                {{ form_errors(registrationForm.mot_de_passe) }}
                             </div>
-                            <div class="form-group mb-3">
-                                {{ form_widget(registrationForm.genre, {'attr': {'class': 'form-control', 'placeholder': 'Votre Genre'}}) }}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre Email'}}) }}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form_widget(registrationForm.mot_de_passe, {'attr': {'class': 'form-control', 'placeholder': 'Mot de Passe'}}) }}
-                            </div>
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
-                            </div>
-                            {{ form_end(registrationForm) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">S'inscrire</button>
+                        {{ form_end(registrationForm) }}
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="#">Mot de passe oublié ?</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="{{ path('app_login') }}">Déjà un compte ? Connectez-vous !</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-{% endblock %}
+    </div>
+</div>
 
-{% block js %}
-    {{ parent() }}
-    <script src="{{ asset('assets/back/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/back/vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/back/js/sidebarmenu.js') }}"></script>
-    <script src="{{ asset('assets/back/js/app.min.js') }}"></script>
-    <script src="{{ asset('assets/back/js/simplebar.js') }}"></script>
-{% endblock %}
+<!-- Bootstrap core JavaScript -->
+<script src="{{ asset('assets/back/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/back/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Core plugin JavaScript -->
+<script src="{{ asset('assets/back/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+<!-- Custom scripts -->
+<script src="{{ asset('assets/back/js/sb-admin-2.min.js') }}"></script>
+</body>
+</html>

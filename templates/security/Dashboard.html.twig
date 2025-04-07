@@ -1,314 +1,248 @@
-{% extends 'admin.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Tableau de bord</title>
 
-{% block title %}WoOx Travel - Accueil{% endblock %}
+    <!-- Custom fonts -->
+    <link href="{{ asset('assets/back/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-{% block body %}
-    <!-- Main Banner Area Start -->
-    <section id="section-1">
-        <div class="content-slider">
-            <input type="radio" id="banner1" class="sec-1-input" name="banner" checked>
-            <input type="radio" id="banner2" class="sec-1-input" name="banner">
-            <input type="radio" id="banner3" class="sec-1-input" name="banner">
-            <input type="radio" id="banner4" class="sec-1-input" name="banner">
-            <div class="slider">
-                <div id="top-banner-1" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                        <div class="main-caption">
-                            <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                            <h1>Caribbean</h1>
-                            <div class="border-button"><a href="{{ path('app_evenement_index') }}">Go There</a></div>
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="more-info">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-user"></i>
-                                                <h4><span>Population:</span><br>44.48 M</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-globe"></i>
-                                                <h4><span>Territory:</span><br>275.400 KM<em>2</em></h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-home"></i>
-                                                <h4><span>AVG Price:</span><br>$946.000</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <div class="main-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Explore More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="top-banner-2" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                        <div class="main-caption">
-                            <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                            <h1>Switzerland</h1>
-                            <div class="border-button"><a href="{{ path('app_evenement_index') }}">Go There</a></div>
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="more-info">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-user"></i>
-                                                <h4><span>Population:</span><br>8.66 M</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-globe"></i>
-                                                <h4><span>Territory:</span><br>41.290 KM<em>2</em></h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-home"></i>
-                                                <h4><span>AVG Price:</span><br>$1.100.200</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <div class="main-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Explore More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="top-banner-3" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                        <div class="main-caption">
-                            <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                            <h1>France</h1>
-                            <div class="border-button"><a href="{{ path('app_evenement_index') }}">Go There</a></div>
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="more-info">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-user"></i>
-                                                <h4><span>Population:</span><br>67.41 M</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-globe"></i>
-                                                <h4><span>Territory:</span><br>551.500 KM<em>2</em></h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-home"></i>
-                                                <h4><span>AVG Price:</span><br>$425.600</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <div class="main-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Explore More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="top-banner-4" class="banner">
-                    <div class="banner-inner-wrapper header-text">
-                        <div class="main-caption">
-                            <h2>Take a Glimpse Into The Beautiful Country Of:</h2>
-                            <h1>Thailand</h1>
-                            <div class="border-button"><a href="{{ path('app_evenement_index') }}">Go There</a></div>
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="more-info">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-user"></i>
-                                                <h4><span>Population:</span><br>69.86 M</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-globe"></i>
-                                                <h4><span>Territory:</span><br>513.120 KM<em>2</em></h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <i class="fa fa-home"></i>
-                                                <h4><span>AVG Price:</span><br>$165.450</h4>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-6">
-                                                <div class="main-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Explore More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Custom styles -->
+    <link href="{{ asset('assets/back/css/sb-admin-2.min.css') }}" rel="stylesheet">
+</head>
+
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('app_admin_dashboard') }}">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
             </div>
-            <nav>
-                <div class="controls">
-                    <label for="banner1"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">1</span></label>
-                    <label for="banner2"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">2</span></label>
-                    <label for="banner3"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">3</span></label>
-                    <label for="banner4"><span class="progressbar"><span class="progressbar-fill"></span></span><span class="text">4</span></label>
+            <div class="sidebar-brand-text mx-3">Sahtek Event</div>
+        </a>
+        <hr class="sidebar-divider my-0">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Utilisateur -->
+            <li class="nav-item active custom-nav-item">
+                <a class="nav-link" href="{{ path('app_utilisateur_index') }}">
+                    <i class="fas fa-fw fa-calendar custom-icon"></i>
+                    <span class="custom-nav-text">Utilisateur</span>
+                </a>
+            </li>
+
+            <!-- Evenement -->
+            <li class="nav-item custom-nav-item">
+                <a class="nav-link collapsed custom-nav-link" href="#" data-toggle="collapse" data-target="#collapse-evenement"
+                   aria-expanded="false" aria-controls="collapse-evenement">
+                    <i class="fas fa-fw fa-cog custom-icon"></i>
+                    <span class="custom-nav-text">Evenement</span>
+                </a>
+                <div id="collapse-evenement" class="collapse custom-collapse" aria-labelledby="heading-evenement" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded custom-collapse-inner">
+                        <h6 class="collapse-header custom-collapse-header">Gestion des événements</h6>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_evenement_index') }}">Événements</a>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_participation_index') }}">Participation</a>
+                    </div>
                 </div>
+            </li>
+
+            <!-- Support -->
+            <li class="nav-item custom-nav-item">
+                <a class="nav-link collapsed custom-nav-link" href="#" data-toggle="collapse" data-target="#collapse-support"
+                   aria-expanded="false" aria-controls="collapse-support">
+                    <i class="fas fa-fw fa-cog custom-icon"></i>
+                    <span class="custom-nav-text">Support</span>
+                </a>
+                <div id="collapse-support" class="collapse custom-collapse" aria-labelledby="heading-support" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded custom-collapse-inner">
+                        <h6 class="collapse-header custom-collapse-header">Gestion des supports</h6>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_support_index') }}">Supports</a>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_supportpermission_index') }}">Permissions</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Service -->
+            <li class="nav-item custom-nav-item">
+                <a class="nav-link collapsed custom-nav-link" href="#" data-toggle="collapse" data-target="#collapse-service"
+                   aria-expanded="false" aria-controls="collapse-service">
+                    <i class="fas fa-fw fa-cog custom-icon"></i>
+                    <span class="custom-nav-text">Service</span>
+                </a>
+                <div id="collapse-service" class="collapse custom-collapse" aria-labelledby="heading-service" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded custom-collapse-inner">
+                        <h6 class="collapse-header custom-collapse-header">Gestion des services</h6>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_transport_index') }}">Transport</a>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_service_index') }}">Service</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Reclamation -->
+            <li class="nav-item custom-nav-item">
+                <a class="nav-link collapsed custom-nav-link" href="#" data-toggle="collapse" data-target="#collapse-reclamation"
+                   aria-expanded="false" aria-controls="collapse-reclamation">
+                    <i class="fas fa-fw fa-cog custom-icon"></i>
+                    <span class="custom-nav-text">Reclamation</span>
+                </a>
+                <div id="collapse-reclamation" class="collapse custom-collapse" aria-labelledby="heading-reclamation" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded custom-collapse-inner">
+                        <h6 class="collapse-header custom-collapse-header">Gestion des réclamations</h6>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_reclamation_index') }}">Réclamations</a>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_feedback_index') }}">Feedback</a>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_suivi_reclamation_index') }}">Suivi</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Produit sponsoring -->
+            <li class="nav-item custom-nav-item">
+                <a class="nav-link collapsed custom-nav-link" href="#" data-toggle="collapse" data-target="#collapse-sponsoring"
+                   aria-expanded="false" aria-controls="collapse-sponsoring">
+                    <i class="fas fa-fw fa-cog custom-icon"></i>
+                    <span class="custom-nav-text">Produit sponsoring</span>
+                </a>
+                <div id="collapse-sponsoring" class="collapse custom-collapse" aria-labelledby="heading-sponsoring" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded custom-collapse-inner">
+                        <h6 class="collapse-header custom-collapse-header">Gestion du sponsoring</h6>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_contrat_sponsoring_index') }}">Contrats</a>
+                        <a class="collapse-item custom-collapse-item" href="{{ path('app_produitsponsoring_index') }}">Produits</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- End of Sidebar -->
+        <hr class="sidebar-divider d-none d-md-block">
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.nom}} {{app.user.prenom }}</span>
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="{{ path('app_logout') }}" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Déconnexion
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             </nav>
-        </div>
-    </section>
-    <!-- Main Banner Area End -->
+            <!-- End of Topbar -->
 
-    <div class="visit-country">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="section-heading">
-                        <h2>Visit One Of Our Countries Now</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                    </div>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="items">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-5">
-                                            <div class="image">
-                                                <img src="{{ asset('assets/front/images/country-01.jpg') }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-8 col-sm-7">
-                                            <div class="right-content">
-                                                <h4>SWITZERLAND</h4>
-                                                <span>Europe</span>
-                                                <div class="main-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Explore More</a>
-                                                </div>
-                                                <p>Woox Travel is a professional Bootstrap 5 theme HTML CSS layout for your website. You can use this layout for your commercial work.</p>
-                                                <ul class="info">
-                                                    <li><i class="fa fa-user"></i> 8.66 Mil People</li>
-                                                    <li><i class="fa fa-globe"></i> 41.290 km2</li>
-                                                    <li><i class="fa fa-home"></i> $1.100.200</li>
-                                                </ul>
-                                                <div class="text-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Need Directions? <i class="fa fa-arrow-right"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Utilisateurs</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ user_count }}</div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="item">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-5">
-                                            <div class="image">
-                                                <img src="{{ asset('assets/front/images/country-02.jpg') }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-8 col-sm-7">
-                                            <div class="right-content">
-                                                <h4>CARIBBEAN</h4>
-                                                <span>North America</span>
-                                                <div class="main-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Explore More</a>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                                                <ul class="info">
-                                                    <li><i class="fa fa-user"></i> 44.48 Mil People</li>
-                                                    <li><i class="fa fa-globe"></i> 275.400 km2</li>
-                                                    <li><i class="fa fa-home"></i> $946.000</li>
-                                                </ul>
-                                                <div class="text-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Need Directions? <i class="fa fa-arrow-right"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-gray-300"></i>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="item last-item">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-5">
-                                            <div class="image">
-                                                <img src="{{ asset('assets/front/images/country-03.jpg') }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-8 col-sm-7">
-                                            <div class="right-content">
-                                                <h4>FRANCE</h4>
-                                                <span>Europe</span>
-                                                <div class="main-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Explore More</a>
-                                                </div>
-                                                <p>We hope this WoOx template is useful for you, please support us a <a href="https://paypal.me/templatemo" target="_blank">small amount of PayPal</a> to info [at] templatemo.com for our survival. We really appreciate your contribution.</p>
-                                                <ul class="info">
-                                                    <li><i class="fa fa-user"></i> 67.41 Mil People</li>
-                                                    <li><i class="fa fa-globe"></i> 551.500 km2</li>
-                                                    <li><i class="fa fa-home"></i> $425.600</li>
-                                                </ul>
-                                                <div class="text-button">
-                                                    <a href="{{ path('app_evenement_index') }}">Need Directions? <i class="fa fa-arrow-right"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <ul class="page-numbers">
-                                    <li><a href="#"><i class="fa fa-arrow-left"></i></a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li class="active"><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#"><i class="fa fa-arrow-right"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="side-bar-map">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div id="map">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12469.776493332698!2d-80.14036379941481!3d25.907788681148624!2m3!1f357.26927939317244!2f20.870722720054623!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x88d9add4b4ac788f%3A0xe77469d09480fcdb!2sSunny%20Isles%20Beach!5e1!3m2!1sen!2sth!4v1642869952544!5m2!1sen!2sth" width="100%" height="550px" frameborder="0" style="border:0; border-radius: 23px;" allowfullscreen=""></iframe>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="call-to-action">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <h2>Are You Looking To Travel?</h2>
-                    <h4>Make A Reservation By Clicking The Button</h4>
-                </div>
-                <div class="col-lg-4">
-                    <div class="border-button">
-                        <a href="{{ path('app_evenement_index') }}">Book Yours Now</a>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Événements</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ event_count }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright © WoOx Travel {{ "now"|date("Y") }}</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button -->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Prêt à partir ?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Cliquez sur "Déconnexion" pour terminer votre session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                <a class="btn btn-primary" href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
         </div>
     </div>
-{% endblock %}
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ asset('assets/back/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/back/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Core plugin JavaScript -->
+<script src="{{ asset('assets/back/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+<!-- Custom scripts for all pages -->
+<script src="{{ asset('assets/back/js/sb-admin-2.min.js') }}"></script>
+</body>
+</html>

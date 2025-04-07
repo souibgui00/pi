@@ -1,32 +1,32 @@
 <?php
-
 namespace App\Form;
 
-use App\Entity\Evenement;
 use App\Entity\Participation;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ParticipationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date_inscription', null, [
-                'widget' => 'single_text',
+            ->add('phoneNumber', TextType::class, [
+                'mapped' => false,
+                'required' => true,
+                'label' => 'Numéro de Téléphone',
+                'attr' => ['placeholder' => 'Ex. +216 123 456 78'],
             ])
-            ->add('motif_annulation')
-            ->add('moyen_paiement')
-            ->add('utilisateur', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('evenement', EntityType::class, [
-                'class' => Evenement::class,
-                'choice_label' => 'id',
+            ->add('moyenPaiement', ChoiceType::class, [
+                'choices' => [
+                    'Carte Bancaire' => 'carte_bancaire',
+                    'Espèces' => 'especes',
+                    'Virement' => 'virement',
+                ],
+                'required' => true,
+                'label' => 'Moyen de Paiement',
             ])
         ;
     }

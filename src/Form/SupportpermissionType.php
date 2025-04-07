@@ -24,7 +24,7 @@ class SupportpermissionType extends AbstractType
             ])
             ->add('support', EntityType::class, [
                 'class' => Support::class,
-                'choice_label' => 'id',
+                'choice_label' => 'titre',
             ])
         ;
     }

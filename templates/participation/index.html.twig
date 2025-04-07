@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Date_inscription</th>
-                <th>Motif_annulation</th>
                 <th>Moyen_paiement</th>
                 <th>actions</th>
             </tr>
@@ -18,7 +17,6 @@
         {% for participation in participations %}
             <tr>
                 <td>{{ participation.dateInscription ? participation.dateInscription|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ participation.motifAnnulation }}</td>
                 <td>{{ participation.moyenPaiement }}</td>
                 <td>
                     <a href="{{ path('app_participation_show', {'id': participation.id}) }}">show</a>

@@ -1,21 +1,37 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\Support;
+use App\Entity\Evenement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SupportType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('url')
-            ->add('type')
-            ->add('id_evenementAssocie')
-            ->add('titre')
+            ->add('url', TextType::class, [
+                'label' => 'URL',
+                'required' => false,
+            ])
+            ->add('type', TextType::class, [
+                'label' => 'Type',
+                'required' => false,
+            ])
+            ->add('evenement', EntityType::class, [
+                'class' => Evenement::class,
+                'choice_label' => 'nom',
+                'label' => 'Événement Associé',
+                'placeholder' => 'Choisir un événement',
+                'required' => false,
+            ])
+            ->add('titre', TextType::class, [
+                'label' => 'Titre',
+            ])
         ;
     }
 
