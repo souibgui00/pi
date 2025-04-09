@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Participation;
@@ -26,19 +25,22 @@ final class ParticipationController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $participation = new Participation();
-        $form = $this->createForm(ParticipationType::class, $participation);
+        $form = $this->createForm(ParticipationType::class, $participation, [
+            'attr' => ['novalidate' => 'novalidate'],
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($participation);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Participation créée avec succès !');
             return $this->redirectToRoute('app_participation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('participation/new.html.twig', [
             'participation' => $participation,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -53,18 +55,21 @@ final class ParticipationController extends AbstractController
     #[Route('/{id}/edit', name: 'app_participation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Participation $participation, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ParticipationType::class, $participation);
+        $form = $this->createForm(ParticipationType::class, $participation, [
+            'attr' => ['novalidate' => 'novalidate'],
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Participation mise à jour avec succès !');
             return $this->redirectToRoute('app_participation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('participation/edit.html.twig', [
             'participation' => $participation,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

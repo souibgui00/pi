@@ -4,6 +4,7 @@ namespace App\Entity;
 use App\Repository\ParticipationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipationRepository::class)]
 #[ORM\Table(name: 'participation')]
@@ -16,16 +17,20 @@ class Participation
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'participations')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L'utilisateur est obligatoire.")]
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'participations')]
     #[ORM\JoinColumn(name: 'id_evenement', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L'événement est obligatoire.")]
     private ?Evenement $evenement = null;
 
     #[ORM\Column(type: 'datetime', nullable: false)]
+    #[Assert\NotBlank(message: "La date d'inscription est obligatoire.")]
     private ?\DateTimeInterface $date_inscription = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\NotBlank(message: "Le moyen de paiement est obligatoire.")]
     private ?string $moyen_paiement = null;
 
     public function getId(): ?int

@@ -10,6 +10,7 @@ use App\Form\EvenementType;
 use App\Form\FeedbackType;
 use App\Form\ParticipationType;
 use App\Form\ReclamationType;
+use App\Form\UserParticipationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +58,9 @@ class EvenementController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $evenement = new Evenement();
-        $form = $this->createForm(EvenementType::class, $evenement);
+        $form = $this->createForm(EvenementType::class, $evenement, [
+            'attr' => ['novalidate' => 'novalidate']
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -154,37 +157,27 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/evenement/{id}/participate', name: 'app_evenement_participate', methods: ['GET', 'POST'])]
-    public function participate(Request $request, ?Evenement $evenement, EntityManagerInterface $entityManager): Response
+    public function participate(Request $request, Evenement $evenement, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // Vérifier si l'utilisateur est connecté
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $utilisateur = $this->getUser();
 
-        if (!$evenement) {
-            $this->addFlash('error', 'Événement non trouvé.');
-            return $this->redirectToRoute('app_evenement_index_front');
-        }
-
+        // Créer une nouvelle participation
         $participation = new Participation();
-        $form = $this->createForm(ParticipationType::class, $participation);
+        $participation->setEvenement($evenement);
+        $participation->setUtilisateur($utilisateur);
+        $participation->setDateInscription(new \DateTime()); // Date de confirmation actuelle
+
+        $form = $this->createForm(UserParticipationType::class, $participation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $participation->setUtilisateur($this->getUser());
-            $participation->setEvenement($evenement);
-            $participation->setDateInscription(new \DateTime());
-            $participation->setMoyenPaiement($form->get('moyenPaiement')->getData());
-
-            $totalParticipants = $evenement->getParticipations()->count() + 1;
-            if ($totalParticipants > $evenement->getCapaciteMax()) {
-                $this->addFlash('error', 'Désolé, la capacité maximale de cet événement est atteinte.');
-                return $this->redirectToRoute('app_evenement_index_front');
-            }
-
             $entityManager->persist($participation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_payment_process', [
-                'participationId' => $participation->getId(),
-            ]);
+            $this->addFlash('success', 'Votre réservation pour ' . $evenement->getNom() . ' a été confirmée avec succès !');
+            return $this->redirectToRoute('app_evenement_index_front', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('front/reservation.html.twig', [
@@ -241,39 +234,46 @@ class EvenementController extends AbstractController
 
         $supports = $entityManager->getRepository(Support::class)->findBy(['evenement' => $evenement]);
 
+        // Formulaire de réclamation
         $reclamation = new Reclamation();
-        $reclamationForm = $this->createForm(ReclamationType::class, $reclamation);
+        $reclamation->setUtilisateur($user);
+        $reclamation->setEvenement($evenement);
+        $reclamation->setStatut('en_attente'); // Statut par défaut
+        $reclamationForm = $this->createForm(ReclamationType::class, $reclamation, ['attr' => ['name' => 'reclamation_form']]);
         $reclamationForm->handleRequest($request);
 
+        // Formulaire de feedback
+        $feedback = new Feedback();
+        $feedbackForm = $this->createForm(FeedbackType::class, $feedback, ['attr' => ['name' => 'feedback_form']]);
+        $feedbackForm->handleRequest($request);
+
+        // Traitement de la réclamation
         if ($reclamationForm->isSubmitted() && $reclamationForm->isValid()) {
             $imageFile = $reclamationForm->get('image')->getData();
-            if (!$imageFile) {
-                throw new \LogicException('Image file is null despite being required.');
+            if ($imageFile) {
+                $newFilename = uniqid() . '.' . $imageFile->guessExtension();
+                $imageFile->move($this->getParameter('images_directory'), $newFilename);
+                $reclamation->setImage($newFilename);
+            } else {
+                $this->addFlash('error', 'Veuillez sélectionner une image.');
+                return $this->render('front/evenement_show.html.twig', [
+                    'evenement' => $evenement,
+                    'supports' => $supports,
+                    'reclamation_form' => $reclamationForm->createView(),
+                    'feedback_form' => $feedbackForm->createView(),
+                ]);
             }
 
-            $newFilename = uniqid() . '.' . $imageFile->guessExtension();
-            $uploadDir = $this->getParameter('images_directory');
-            $imageFile->move($uploadDir, $newFilename);
-            $reclamation->setImage($newFilename);
-
-            $reclamation->setUtilisateur($user);
-            $reclamation->setEvenement($evenement);
-            $reclamation->setStatut('en_attente');
             $entityManager->persist($reclamation);
             $entityManager->flush();
-
             $this->addFlash('success', 'Votre réclamation a été soumise avec succès.');
             return $this->redirectToRoute('app_evenement_details', ['id' => $evenement->getId()]);
         }
 
-        $feedback = new Feedback();
-        $feedbackForm = $this->createForm(FeedbackType::class, $feedback);
-        $feedbackForm->handleRequest($request);
-
+        // Traitement du feedback (simplifié)
         if ($feedbackForm->isSubmitted() && $feedbackForm->isValid()) {
             $entityManager->persist($feedback);
             $entityManager->flush();
-
             $this->addFlash('success', 'Votre feedback a été soumis avec succès.');
             return $this->redirectToRoute('app_evenement_details', ['id' => $evenement->getId()]);
         }

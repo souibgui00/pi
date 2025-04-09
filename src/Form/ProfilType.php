@@ -3,6 +3,7 @@ namespace App\Form;
 
 use App\Entity\Profil;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,6 +23,10 @@ class ProfilType extends AbstractType
             ->add('adresse', TextType::class, [
                 'label' => 'Adresse',
                 'required' => false,
+            ])
+            ->add('newsletter', CheckboxType::class, [
+                'label' => 'S\'inscrire à la newsletter',
+                'required' => false, // Non obligatoire
             ])
         ;
     }

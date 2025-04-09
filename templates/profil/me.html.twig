@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Mon Profil - WoOx Travel</title>
+    <title>Mon Profil - Sahtek Event</title>
 
     <!-- Custom fonts -->
     <link href="{{ asset('assets/back/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -39,7 +39,7 @@
                             <div class="alert alert-danger">{{ message }}</div>
                         {% endfor %}
                         <div class="user">
-                            <h5 class="text-gray-900">Salut, {{ user.getNom() }} {{ user.getPrenom() }}</h5>
+                            <h5 class="text-gray-900">Salut, {{ user.nom }} {{ user.prenom }}</h5>
                             <p><strong>Email:</strong> {{ profil.email }}</p>
                             <p><strong>Téléphone:</strong> {{ profil.numTel ?: 'Non défini' }}</p>
                             <p><strong>Adresse:</strong> {{ profil.adresse ?: 'Non défini' }}</p>
@@ -48,9 +48,11 @@
                             <div class="mt-3">
                                 <a href="{{ path('app_profil_edit', {'id': profil.id}) }}" class="btn btn-primary btn-user btn-block">Modifier</a>
                             </div>
-                            <div class="mt-3">
-                                <a href="{{ path('app_evenement_index_front') }}" class="btn btn-secondary btn-user btn-block">Retour à l'accueil</a>
-                            </div>
+                            {% if not is_granted('ROLE_ADMIN') %}
+                                <div class="mt-3">
+                                    <a href="{{ path('app_evenement_index_front') }}" class="btn btn-secondary btn-user btn-block">Retour à l'accueil</a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

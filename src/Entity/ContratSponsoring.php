@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\ContratSponsoringRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContratSponsoringRepository::class)]
 #[ORM\Table(name: 'contrat_sponsoring')]
@@ -17,17 +17,23 @@ class ContratSponsoring
     private ?int $id = null;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Assert\NotBlank(message: "Le montant est obligatoire.")]
+    #[Assert\Positive(message: "Le montant doit être positif.")]
     private ?float $montant = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\NotBlank(message: "La description est obligatoire.")]
+    #[Assert\Length(min: 10, minMessage: "La description doit contenir au moins {{ limit }} caractères.")]
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'contratSponsorings')]
     #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L'utilisateur est obligatoire.")]
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'contratSponsorings')]
     #[ORM\JoinColumn(name: 'id_evenementAssocie', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L'événement est obligatoire.")]
     private ?Evenement $evenement = null;
 
     #[ORM\ManyToMany(targetEntity: Produitsponsoring::class, inversedBy: 'contratSponsorings')]
@@ -110,7 +116,7 @@ class ContratSponsoring
     {
         if (!$this->produitsponsorings->contains($produitsponsoring)) {
             $this->produitsponsorings->add($produitsponsoring);
-            $produitsponsoring->addContratSponsoring($this); // Synchronisation bidirectionnelle
+            $produitsponsoring->addContratSponsoring($this);
         }
         return $this;
     }
@@ -118,7 +124,7 @@ class ContratSponsoring
     public function removeProduitsponsoring(Produitsponsoring $produitsponsoring): self
     {
         if ($this->produitsponsorings->removeElement($produitsponsoring)) {
-            $produitsponsoring->removeContratSponsoring($this); // Synchronisation bidirectionnelle
+            $produitsponsoring->removeContratSponsoring($this);
         }
         return $this;
     }

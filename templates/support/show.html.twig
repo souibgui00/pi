@@ -1,10 +1,17 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Support{% endblock %}
+{% block title %}Détails du Support{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Détails du Support</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -14,12 +21,12 @@
                 <table class="table">
                     <tbody>
                     <tr>
-                        <th>Id</th>
+                        <th>ID</th>
                         <td>{{ support.id }}</td>
                     </tr>
                     <tr>
-                        <th>Url</th>
-                        <td>{{ support.url }}</td>
+                        <th>URL</th>
+                        <td>{{ support.url ? support.url : 'N/A' }}</td>
                     </tr>
                     <tr>
                         <th>Type</th>
@@ -38,7 +45,6 @@
 
                 <a href="{{ path('app_support_index') }}" class="btn btn-secondary btn-user mt-3">Retour à la liste</a>
                 <a href="{{ path('app_support_edit', {'id': support.id}) }}" class="btn btn-primary btn-user mt-3">Modifier</a>
-
                 {{ include('support/_delete_form.html.twig') }}
             </div>
         </div>

@@ -17,6 +17,7 @@ final class ServiceController extends AbstractController
     #[Route(name: 'app_service_index', methods: ['GET'])]
     public function index(ServiceRepository $serviceRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('service/index.html.twig', [
             'services' => $serviceRepository->findAll(),
         ]);
@@ -25,6 +26,7 @@ final class ServiceController extends AbstractController
     #[Route('/new', name: 'app_service_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $service = new Service();
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
@@ -33,47 +35,70 @@ final class ServiceController extends AbstractController
             $entityManager->persist($service);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Service créé avec succès.');
             return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('service/new.html.twig', [
             'service' => $service,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_service_show', methods: ['GET'])]
-    public function show(Service $service): Response
+    public function show(?Service $service): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if (!$service) {
+            $this->addFlash('error', 'Service non trouvé.');
+            return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('service/show.html.twig', [
             'service' => $service,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_service_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Service $service, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, ?Service $service, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if (!$service) {
+            $this->addFlash('error', 'Service non trouvé.');
+            return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Service mis à jour avec succès.');
             return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('service/edit.html.twig', [
             'service' => $service,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_service_delete', methods: ['POST'])]
-    public function delete(Request $request, Service $service, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, ?Service $service, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if (!$service) {
+            $this->addFlash('error', 'Service non trouvé.');
+            return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$service->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($service);
             $entityManager->flush();
+            $this->addFlash('success', 'Service supprimé avec succès.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
         }
 
         return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);

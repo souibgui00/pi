@@ -26,6 +26,9 @@ class Profil
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $adresse = null;
 
+    #[ORM\Column(type: 'boolean', nullable: true)] // Nouveau champ
+    private ?bool $newsletter = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +81,17 @@ class Profil
     public function setAdresse(?string $adresse): self
     {
         $this->adresse = $adresse;
+        return $this;
+    }
+
+    public function getNewsletter(): ?bool
+    {
+        return $this->newsletter;
+    }
+
+    public function setNewsletter(?bool $newsletter): self
+    {
+        $this->newsletter = $newsletter;
         return $this;
     }
 }

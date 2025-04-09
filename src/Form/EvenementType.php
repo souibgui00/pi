@@ -18,14 +18,20 @@ class EvenementType extends AbstractType
         $builder
             ->add('nom', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('date', DateTimeType::class, ['widget' => 'single_text'])
+            ->add('date', DateTimeType::class, [
+                'widget' => 'single_text', // Champ texte avec picker
+                'html5' => true, // Calendrier natif HTML5
+                'attr' => ['class' => 'form-control'], // Style Bootstrap
+                'input' => 'datetime_immutable', // Retourne DateTimeImmutable
+                // Pas de 'format' ici, HTML5 impose yyyy-MM-ddTHH:mm
+            ])
             ->add('lieu', TextType::class)
             ->add('statut', TextType::class)
             ->add('capacite_max', IntegerType::class)
             ->add('image', FileType::class, [
                 'label' => 'Image (JPG, PNG)',
-                'mapped' => false, // Not directly mapped to entity property
-                'required' => false, // Optional upload
+                'mapped' => false,
+                'required' => false,
             ])
             ->add('type', TextType::class)
         ;

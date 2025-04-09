@@ -1,34 +1,50 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Participation{% endblock %}
+{% block title %}Détails de la Participation{% endblock %}
 
 {% block body %}
-    <h1>Participation</h1>
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Détails de la Participation</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ participation.id }}</td>
-            </tr>
-            <tr>
-                <th>Date_inscription</th>
-                <td>{{ participation.dateInscription ? participation.dateInscription|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Motif_annulation</th>
-                <td>{{ participation.motifAnnulation }}</td>
-            </tr>
-            <tr>
-                <th>Moyen_paiement</th>
-                <td>{{ participation.moyenPaiement }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Participation #{{ participation.id }}</h6>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ participation.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <td>{{ participation.utilisateur ? participation.utilisateur.nom ~ ' ' ~ participation.utilisateur.prenom ~ ' (' ~ participation.utilisateur.email ~ ')' : 'Non défini' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Événement</th>
+                        <td>{{ participation.evenement ? participation.evenement.nom : 'Non défini' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date d'inscription</th>
+                        <td>{{ participation.dateInscription ? participation.dateInscription|date('d/m/Y H:i') : 'Non définie' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Moyen de paiement</th>
+                        <td>{{ participation.moyenPaiement ?: 'Non défini' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-    <a href="{{ path('app_participation_index') }}">back to list</a>
+                <div class="mt-3">
+                    <a href="{{ path('app_participation_index') }}" class="btn btn-secondary btn-user btn-block">Retour à la liste</a>
+                    <a href="{{ path('app_participation_edit', {'id': participation.id}) }}" class="btn btn-primary btn-user btn-block mt-2">Modifier</a>
+                </div>
 
-    <a href="{{ path('app_participation_edit', {'id': participation.id}) }}">edit</a>
-
-    {{ include('participation/_delete_form.html.twig') }}
+                <div class="mt-3">
+                    {{ include('participation/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

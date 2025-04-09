@@ -4,10 +4,14 @@ namespace App\Controller;
 use App\Entity\Profil;
 use App\Entity\Utilisateur;
 use App\Form\ProfilType;
+use App\Repository\ProfilRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/profil')]
@@ -27,15 +31,28 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        // Redirection pour les admins
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_evenement_index'); // Dashboard admin
+        }
+
         $profil = $user->getProfil();
         if (!$profil) {
             $profil = new Profil();
             $profil->setUtilisateur($user);
             $profil->setEmail($user->getEmail());
-            $entityManager->persist($profil);
-            $entityManager->flush();
-            $this->addFlash('warning', 'Veuillez compléter votre profil.');
-            return $this->redirectToRoute('app_profil_edit', ['id' => $profil->getId()]);
+            try {
+                $entityManager->persist($profil);
+                $entityManager->flush();
+                $this->addFlash('warning', 'Veuillez compléter votre profil.');
+                return $this->redirectToRoute('app_profil_edit', ['id' => $profil->getId()]);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Erreur lors de la création du profil : ' . $e->getMessage());
+                return $this->render('profil/me.html.twig', [
+                    'profil' => null,
+                    'user' => $user,
+                ]);
+            }
         }
 
         return $this->render('profil/me.html.twig', [

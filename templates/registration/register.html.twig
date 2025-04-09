@@ -30,40 +30,46 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Créer un compte !</h1>
                         </div>
-                        {{ form_start(registrationForm, {'attr': {'class': 'user'}}) }}
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endfor %}
+
+                        {{ form_start(registrationForm, {'attr': {'class': 'user', 'novalidate': 'novalidate'}}) }}
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <label for="utilisateur_prenom" class="sr-only">Prénom</label>
+                                {{ form_label(registrationForm.prenom, null, {'label_attr': {'class': 'sr-only'}}) }}
                                 {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Prénom'}}) }}
-                                {{ form_errors(registrationForm.prenom) }}
+                                <small class="text-danger">{{ form_errors(registrationForm.prenom) }}</small>
                             </div>
                             <div class="col-sm-6">
-                                <label for="utilisateur_nom" class="sr-only">Nom</label>
+                                {{ form_label(registrationForm.nom, null, {'label_attr': {'class': 'sr-only'}}) }}
                                 {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Nom'}}) }}
-                                {{ form_errors(registrationForm.nom) }}
+                                <small class="text-danger">{{ form_errors(registrationForm.nom) }}</small>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="utilisateur_email" class="sr-only">Adresse Email</label>
+                            {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'sr-only'}}) }}
                             {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Adresse Email'}}) }}
-                            {{ form_errors(registrationForm.email) }}
+                            <small class="text-danger">{{ form_errors(registrationForm.email) }}</small>
                         </div>
                         <div class="form-group">
-                            <label for="utilisateur_nationalite" class="sr-only">Nationalité</label>
+                            {{ form_label(registrationForm.nationalite, null, {'label_attr': {'class': 'sr-only'}}) }}
                             {{ form_widget(registrationForm.nationalite, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Nationalité'}}) }}
-                            {{ form_errors(registrationForm.nationalite) }}
+                            <small class="text-danger">{{ form_errors(registrationForm.nationalite) }}</small>
                         </div>
                         <div class="form-group">
-                            <label for="utilisateur_genre" class="sr-only">Genre</label>
+                            {{ form_label(registrationForm.genre, null, {'label_attr': {'class': 'sr-only'}}) }}
                             {{ form_widget(registrationForm.genre, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Genre'}}) }}
-                            {{ form_errors(registrationForm.genre) }}
+                            <small class="text-danger">{{ form_errors(registrationForm.genre) }}</small>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <label for="utilisateur_mot_de_passe" class="sr-only">Mot de passe</label>
-                                {{ form_widget(registrationForm.mot_de_passe, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Mot de passe'}}) }}
-                                {{ form_errors(registrationForm.mot_de_passe) }}
-                            </div>
+                        <div class="form-group">
+                            {{ form_label(registrationForm.mot_de_passe, null, {'label_attr': {'class': 'sr-only'}}) }}
+                            {{ form_widget(registrationForm.mot_de_passe, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Mot de passe'}}) }}
+                            <small class="text-danger">{{ form_errors(registrationForm.mot_de_passe) }}</small>
                         </div>
                         <button type="submit" class="btn btn-primary btn-user btn-block">S'inscrire</button>
                         {{ form_end(registrationForm) }}

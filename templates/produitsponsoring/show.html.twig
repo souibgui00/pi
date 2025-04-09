@@ -1,42 +1,33 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Produitsponsoring{% endblock %}
+{% block title %}Détails du Produit Sponsoring{% endblock %}
 
 {% block body %}
-    <h1>Produitsponsoring</h1>
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Détails du Produit Sponsoring</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ produitsponsoring.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ produitsponsoring.nom }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ produitsponsoring.description }}</td>
-            </tr>
-            <tr>
-                <th>Quantite</th>
-                <td>{{ produitsponsoring.quantite }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ produitsponsoring.prix }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ produitsponsoring.image }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{{ produitsponsoring.nom }}</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>ID:</strong> {{ produitsponsoring.id }}</p>
+                <p><strong>Nom:</strong> {{ produitsponsoring.nom }}</p>
+                <p><strong>Description:</strong> {{ produitsponsoring.description }}</p>
+                <p><strong>Quantité:</strong> {{ produitsponsoring.quantite }}</p>
+                <p><strong>Prix:</strong> {{ produitsponsoring.prix|number_format(2, ',', ' ') }} €</p>
+                <p><strong>Image:</strong>
+                    {% if produitsponsoring.image %}
+                        <img src="{{ asset('uploads/produits/' ~ produitsponsoring.image) }}" alt="{{ produitsponsoring.nom }}" style="max-width: 200px;">
+                    {% else %}
+                        Pas d'image
+                    {% endif %}
+                </p>
 
-    <a href="{{ path('app_produitsponsoring_index') }}">back to list</a>
-
-    <a href="{{ path('app_produitsponsoring_edit', {'id': produitsponsoring.id}) }}">edit</a>
-
-    {{ include('produitsponsoring/_delete_form.html.twig') }}
+                <a href="{{ path('app_produitsponsoring_index') }}" class="btn btn-secondary btn-user mt-3">Retour</a>
+                <a href="{{ path('app_produitsponsoring_edit', {'id': produitsponsoring.id}) }}" class="btn btn-primary btn-user mt-3">Modifier</a>
+                {{ include('produitsponsoring/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
