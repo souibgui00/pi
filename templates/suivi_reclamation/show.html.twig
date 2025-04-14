@@ -22,10 +22,13 @@
                 <p><strong>Statut:</strong> {{ suivi_reclamation.status }}</p>
                 <p><strong>Commentaire:</strong> {{ suivi_reclamation.commentaire }}</p>
                 <p><strong>Réclamation:</strong> {{ suivi_reclamation.reclamation ? ('#' ~ suivi_reclamation.reclamation.id ~ ' - ' ~ suivi_reclamation.reclamation.message) : 'N/A' }}</p>
-
-                <a href="{{ path('app_suivi_reclamation_index') }}" class="btn btn-secondary btn-user mt-3">Retour</a>
+                <a href="{{ path('app_suivi_reclamation_index') }}" class="btn btn-secondary btn-user mt-3">Retour à la liste</a>
                 <a href="{{ path('app_suivi_reclamation_edit', {'id': suivi_reclamation.id}) }}" class="btn btn-primary btn-user mt-3">Modifier</a>
-                {{ include('suivi_reclamation/_delete_form.html.twig') }}
+                <form method="post" action="{{ path('app_suivi_reclamation_delete', {'id': suivi_reclamation.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce suivi ?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ suivi_reclamation.id) }}">
+                    <button type="submit" class="btn btn-danger btn-user mt-3">Supprimer</button>
+                </form>
             </div>
         </div>
     </div>

@@ -12,6 +12,7 @@ use App\Form\ParticipationType;
 use App\Form\ReclamationType;
 use App\Form\UserParticipationType;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -154,6 +155,27 @@ class EvenementController extends AbstractController
             'evenement' => $evenement,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/{id}', name: 'app_evenement_delete', methods: ['POST'])]
+    public function delete(Request $request, Evenement $evenement, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->getPayload()->getString('_token'))) {
+            try {
+                // Supprimer l'événement (toutes les relations seront supprimées via cascade)
+                $entityManager->remove($evenement);
+                $entityManager->flush();
+                $this->addFlash('success', 'L\'événement a été supprimé avec succès.');
+            } catch (\Exception $e) {
+                // Log de l'erreur pour diagnostic
+                $logger->error('Erreur lors de la suppression de l\'événement ID '.$evenement->getId().': '.$e->getMessage());
+                $this->addFlash('error', 'Impossible de supprimer l\'événement : '.$e->getMessage());
+            }
+        } else {
+            $this->addFlash('error', 'Token de sécurité invalide.');
+        }
+
+        return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/evenement/{id}/participate', name: 'app_evenement_participate', methods: ['GET', 'POST'])]

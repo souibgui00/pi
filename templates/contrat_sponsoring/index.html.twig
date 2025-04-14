@@ -6,6 +6,13 @@
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Contrats de Sponsoring</h1>
 
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Liste des Contrats</h6>
@@ -27,7 +34,6 @@
                                 <td>{{ contrat_sponsoring.description }}</td>
                                 <td>
                                     <a href="{{ path('app_contrat_sponsoring_show', {'id': contrat_sponsoring.id}) }}" class="btn btn-sm btn-info">Voir</a>
-                                    <a href="{{ path('app_contrat_sponsoring_edit', {'id': contrat_sponsoring.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
                                 </td>
                             </tr>
                         {% else %}

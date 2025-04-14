@@ -18,28 +18,27 @@
                 <h6 class="m-0 font-weight-bold text-primary">Formulaire de Service</h6>
             </div>
             <div class="card-body">
-                {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form'}}) }}
+                {{ form_start(form, {'attr': {'class': 'form'}}) }}
                 <div class="form-group">
-                    {{ form_label(form.type, null, {'label_attr': {'class': 'font-weight-bold text-gray-700'}}) }}
-                    {{ form_widget(form.type) }}
-                    {{ form_errors(form.type, {'attr': {'class': 'text-danger'}}) }}
+                    {{ form_label(form.type) }}
+                    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.type) }}
                 </div>
                 <div class="form-group">
-                    {{ form_label(form.description, null, {'label_attr': {'class': 'font-weight-bold text-gray-700'}}) }}
-                    {{ form_widget(form.description) }}
-                    {{ form_errors(form.description, {'attr': {'class': 'text-danger'}}) }}
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.description) }}
                 </div>
                 <div class="form-group">
-                    {{ form_label(form.cout, null, {'label_attr': {'class': 'font-weight-bold text-gray-700'}}) }}
-                    {{ form_widget(form.cout) }}
-                    {{ form_errors(form.cout, {'attr': {'class': 'text-danger'}}) }}
+                    {{ form_label(form.cout) }}
+                    {{ form_widget(form.cout, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.cout) }}
                 </div>
                 <div class="form-group">
-                    {{ form_label(form.evenement, null, {'label_attr': {'class': 'font-weight-bold text-gray-700'}}) }}
-                    {{ form_widget(form.evenement) }}
-                    {{ form_errors(form.evenement, {'attr': {'class': 'text-danger'}}) }}
+                    {{ form_label(form.evenement) }}
+                    {{ form_widget(form.evenement, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.evenement) }}
                 </div>
-
                 <button type="submit" class="btn btn-primary btn-user btn-block">Créer</button>
                 {{ form_end(form) }}
 

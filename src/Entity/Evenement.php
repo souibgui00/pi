@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
@@ -54,28 +55,28 @@ class Evenement
     #[Assert\NotBlank(message: "Le type est obligatoire.")]
     private ?string $type = null;
 
-    #[ORM\OneToMany(targetEntity: ContratSponsoring::class, mappedBy: 'evenement')]
-    private Collection $contratSponsorings;
-
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'evenement')]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'evenement', cascade: ['remove'], orphanRemoval: true)]
     private Collection $participations;
 
-    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'evenement')]
+    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'evenement', cascade: ['remove'], orphanRemoval: true)]
     private Collection $reclamations;
 
-    #[ORM\OneToMany(targetEntity: Service::class, mappedBy: 'evenement')]
+    #[ORM\OneToMany(targetEntity: Service::class, mappedBy: 'evenement', cascade: ['remove'], orphanRemoval: true)]
     private Collection $services;
 
-    #[ORM\OneToMany(targetEntity: Transport::class, mappedBy: 'evenement')]
+    #[ORM\OneToMany(targetEntity: Transport::class, mappedBy: 'evenement', cascade: ['remove'], orphanRemoval: true)]
     private Collection $transports;
+
+    #[ORM\OneToMany(targetEntity: Support::class, mappedBy: 'evenement', cascade: ['remove'], orphanRemoval: true)]
+    private Collection $supports;
 
     public function __construct()
     {
-        $this->contratSponsorings = new ArrayCollection();
         $this->participations = new ArrayCollection();
         $this->reclamations = new ArrayCollection();
         $this->services = new ArrayCollection();
         $this->transports = new ArrayCollection();
+        $this->supports = new ArrayCollection();
     }
 
     public function getId(): ?int { return $this->id; }
@@ -108,23 +109,138 @@ class Evenement
     public function getType(): ?string { return $this->type; }
     public function setType(string $type): self { $this->type = $type; return $this; }
 
-    public function getContratSponsorings(): Collection { return $this->contratSponsorings ?: new ArrayCollection(); }
-    public function addContratSponsoring(ContratSponsoring $contratSponsoring): self { if (!$this->getContratSponsorings()->contains($contratSponsoring)) { $this->getContratSponsorings()->add($contratSponsoring); } return $this; }
-    public function removeContratSponsoring(ContratSponsoring $contratSponsoring): self { $this->getContratSponsorings()->removeElement($contratSponsoring); return $this; }
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations ?: new ArrayCollection();
+    }
 
-    public function getParticipations(): Collection { return $this->participations ?: new ArrayCollection(); }
-    public function addParticipation(Participation $participation): self { if (!$this->getParticipations()->contains($participation)) { $this->getParticipations()->add($participation); } return $this; }
-    public function removeParticipation(Participation $participation): self { $this->getParticipations()->removeElement($participation); return $this; }
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->getParticipations()->contains($participation)) {
+            $this->getParticipations()->add($participation);
+            $participation->setEvenement($this);
+        }
+        return $this;
+    }
 
-    public function getReclamations(): Collection { return $this->reclamations ?: new ArrayCollection(); }
-    public function addReclamation(Reclamation $reclamation): self { if (!$this->getReclamations()->contains($reclamation)) { $this->getReclamations()->add($reclamation); } return $this; }
-    public function removeReclamation(Reclamation $reclamation): self { $this->getReclamations()->removeElement($reclamation); return $this; }
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->getParticipations()->removeElement($participation)) {
+            if ($participation->getEvenement() === $this) {
+                $participation->setEvenement(null);
+            }
+        }
+        return $this;
+    }
 
-    public function getServices(): Collection { return $this->services ?: new ArrayCollection(); }
-    public function addService(Service $service): self { if (!$this->getServices()->contains($service)) { $this->getServices()->add($service); } return $this; }
-    public function removeService(Service $service): self { $this->getServices()->removeElement($service); return $this; }
+    /**
+     * @return Collection<int, Reclamation>
+     */
+    public function getReclamations(): Collection
+    {
+        return $this->reclamations ?: new ArrayCollection();
+    }
 
-    public function getTransports(): Collection { return $this->transports ?: new ArrayCollection(); }
-    public function addTransport(Transport $transport): self { if (!$this->getTransports()->contains($transport)) { $this->getTransports()->add($transport); } return $this; }
-    public function removeTransport(Transport $transport): self { $this->getTransports()->removeElement($transport); return $this; }
+    public function addReclamation(Reclamation $reclamation): self
+    {
+        if (!$this->getReclamations()->contains($reclamation)) {
+            $this->getReclamations()->add($reclamation);
+            $reclamation->setEvenement($this);
+        }
+        return $this;
+    }
+
+    public function removeReclamation(Reclamation $reclamation): self
+    {
+        if ($this->getReclamations()->removeElement($reclamation)) {
+            if ($reclamation->getEvenement() === $this) {
+                $reclamation->setEvenement(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getServices(): Collection
+    {
+        return $this->services ?: new ArrayCollection();
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->getServices()->contains($service)) {
+            $this->getServices()->add($service);
+            $service->setEvenement($this);
+        }
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->getServices()->removeElement($service)) {
+            if ($service->getEvenement() === $this) {
+                $service->setEvenement(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransports(): Collection
+    {
+        return $this->transports ?: new ArrayCollection();
+    }
+
+    public function addTransport(Transport $transport): self
+    {
+        if (!$this->getTransports()->contains($transport)) {
+            $this->getTransports()->add($transport);
+            $transport->setEvenement($this);
+        }
+        return $this;
+    }
+
+    public function removeTransport(Transport $transport): self
+    {
+        if ($this->getTransports()->removeElement($transport)) {
+            if ($transport->getEvenement() === $this) {
+                $transport->setEvenement(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Support>
+     */
+    public function getSupports(): Collection
+    {
+        return $this->supports ?: new ArrayCollection();
+    }
+
+    public function addSupport(Support $support): self
+    {
+        if (!$this->getSupports()->contains($support)) {
+            $this->getSupports()->add($support);
+            $support->setEvenement($this);
+        }
+        return $this;
+    }
+
+    public function removeSupport(Support $support): self
+    {
+        if ($this->getSupports()->removeElement($support)) {
+            if ($support->getEvenement() === $this) {
+                $support->setEvenement(null);
+            }
+        }
+        return $this;
+    }
 }

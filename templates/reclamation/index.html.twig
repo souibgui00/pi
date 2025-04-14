@@ -39,7 +39,7 @@
                                 <td>{{ reclamation.message }}</td>
                                 <td>
                                     {% if reclamation.image %}
-                                        <img src="{{ asset('uploads/reclamations/' ~ reclamation.image) }}" alt="Image" style="max-width: 100px;">
+                                        <img src="{{ asset('Uploads/' ~ reclamation.image) }}" alt="Image" style="max-width: 100px;">
                                     {% else %}
                                         Pas d'image
                                     {% endif %}
@@ -48,12 +48,6 @@
                                 <td>{{ reclamation.statut|default('N/A') }}</td>
                                 <td>
                                     <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}" class="btn btn-sm btn-info">Voir</a>
-                                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
-                                    <form method="post" action="{{ path('app_reclamation_delete', {'id': reclamation.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette réclamation ?');">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reclamation.id) }}">
-                                        <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
-                                    </form>
                                 </td>
                             </tr>
                         {% else %}

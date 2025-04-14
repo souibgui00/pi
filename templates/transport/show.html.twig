@@ -18,7 +18,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Transport #{{ transport.id }}</h6>
             </div>
             <div class="card-body">
-                <table class="table">
+                <table class="table table-bordered">
                     <tbody>
                     <tr>
                         <th>ID</th>
@@ -54,10 +54,13 @@
                     </tr>
                     </tbody>
                 </table>
-
                 <a href="{{ path('app_transport_index') }}" class="btn btn-secondary btn-user mt-3">Retour à la liste</a>
                 <a href="{{ path('app_transport_edit', {'id': transport.id}) }}" class="btn btn-primary btn-user mt-3">Modifier</a>
-                {{ include('transport/_delete_form.html.twig') }}
+                <form method="post" action="{{ path('app_transport_delete', {'id': transport.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce transport ?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ transport.id) }}">
+                    <button type="submit" class="btn btn-danger btn-user mt-3">Supprimer</button>
+                </form>
             </div>
         </div>
     </div>

@@ -18,7 +18,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">{{ support.titre }}</h6>
             </div>
             <div class="card-body">
-                <table class="table">
+                <table class="table table-bordered">
                     <tbody>
                     <tr>
                         <th>ID</th>
@@ -42,10 +42,13 @@
                     </tr>
                     </tbody>
                 </table>
-
                 <a href="{{ path('app_support_index') }}" class="btn btn-secondary btn-user mt-3">Retour à la liste</a>
                 <a href="{{ path('app_support_edit', {'id': support.id}) }}" class="btn btn-primary btn-user mt-3">Modifier</a>
-                {{ include('support/_delete_form.html.twig') }}
+                <form method="post" action="{{ path('app_support_delete', {'id': support.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce support ?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ support.id) }}">
+                    <button type="submit" class="btn btn-danger btn-user mt-3">Supprimer</button>
+                </form>
             </div>
         </div>
     </div>
