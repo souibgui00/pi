@@ -21,7 +21,7 @@ class Support
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $type = null;
 
-    #[ORM\ManyToOne(targetEntity: Evenement::class)]
+    #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'supports')]
     #[ORM\JoinColumn(name: 'id_evenement_associe', referencedColumnName: 'id', nullable: true)]
     private ?Evenement $evenement = null;
 

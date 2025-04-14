@@ -47,10 +47,6 @@ class Evenement
     #[ORM\Column(type: 'string', nullable: false)]
     private ?string $image = null;
 
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'evenements')]
-    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
-    private ?Utilisateur $utilisateur = null;
-
     #[ORM\Column(type: 'string', nullable: false)]
     #[Assert\NotBlank(message: "Le type est obligatoire.")]
     private ?string $type = null;
@@ -102,9 +98,6 @@ class Evenement
 
     public function getImage(): ?string { return $this->image; }
     public function setImage(string $image): self { $this->image = $image; return $this; }
-
-    public function getUtilisateur(): ?Utilisateur { return $this->utilisateur; }
-    public function setUtilisateur(?Utilisateur $utilisateur): self { $this->utilisateur = $utilisateur; return $this; }
 
     public function getType(): ?string { return $this->type; }
     public function setType(string $type): self { $this->type = $type; return $this; }

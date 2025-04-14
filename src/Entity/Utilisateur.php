@@ -57,8 +57,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: ContratSponsoring::class, mappedBy: 'utilisateur')]
     private Collection $contratSponsorings;
 
-    #[ORM\OneToMany(targetEntity: Evenement::class, mappedBy: 'utilisateur')]
-    private Collection $evenements;
+
 
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'utilisateur')]
     private Collection $participations;
