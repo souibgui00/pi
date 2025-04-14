@@ -19,7 +19,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id="usersTable">
                         <thead class="thead-light">
                         <tr>
                             <th>Nom</th>
@@ -39,16 +39,37 @@
                             <tr>
                                 <td>{{ utilisateur.nom }}</td>
                                 <td>{{ utilisateur.prenom }}</td>
-                                <td>{{ utilisateur.role ? utilisateur.role|json_encode|raw : 'N/A' }}</td>
+                                <td>{{ utilisateur.role ? utilisateur.role|join(', ') : 'N/A' }}</td>
                                 <td>{{ utilisateur.nationalite }}</td>
                                 <td>{{ utilisateur.genre }}</td>
                                 <td>{{ utilisateur.email }}</td>
                                 <td>{{ utilisateur.permission ? 'Oui' : 'Non' }}</td>
-                                <td>{{ utilisateur.statut ? 'Actif' : 'Inactif' }}</td>
+                                <td>
+                                    {% if utilisateur.statut %}
+                                        <span class="badge badge-success">Actif</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Inactif</span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ utilisateur.isVerified ? 'Oui' : 'Non' }}</td>
                                 <td>
                                     <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" class="btn btn-sm btn-info">Voir</a>
                                     <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
+                                    {% if utilisateur.statut %}
+                                        <form method="post" style="display: inline;" action="{{ path('app_utilisateur_index') }}" onsubmit="return confirm('Désactiver cet utilisateur ?');">
+                                            <input type="hidden" name="id" value="{{ utilisateur.id }}">
+                                            <input type="hidden" name="toggle_status" value="1">
+                                            <input type="hidden" name="status" value="0">
+                                            <button type="submit" class="btn btn-sm btn-danger">Désactiver</button>
+                                        </form>
+                                    {% else %}
+                                        <form method="post" style="display: inline;" action="{{ path('app_utilisateur_index') }}" onsubmit="return confirm('Activer cet utilisateur ?');">
+                                            <input type="hidden" name="id" value="{{ utilisateur.id }}">
+                                            <input type="hidden" name="toggle_status" value="1">
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="submit" class="btn btn-sm btn-success">Activer</button>
+                                        </form>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% else %}
@@ -63,4 +84,20 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('assets/back/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/back/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                "order": [[0, "asc"]],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+                }
+            });
+        });
+    </script>
 {% endblock %}

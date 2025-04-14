@@ -42,14 +42,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $permission = null;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private ?bool $statut = null;
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    private bool $statut = true;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $verification_token = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $is_verified = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $resetToken = null;
 
     #[ORM\OneToMany(targetEntity: ContratSponsoring::class, mappedBy: 'utilisateur')]
     private Collection $contratSponsorings;
@@ -81,7 +84,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->role;
-        // Garantir au moins ROLE_USER
         if (empty($roles)) {
             $roles[] = 'ROLE_USER';
         }
@@ -100,15 +102,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // Rien à effacer ici, mais méthode requise par l'interface
     }
 
     public function getSalt(): ?string
     {
-        return null; // Pas besoin de sel avec les hashers modernes
+        return null;
     }
 
-    // Getters and setters
     public function getId(): ?int { return $this->id; }
     public function setNom(string $nom): self { $this->nom = $nom; return $this; }
     public function getNom(): ?string { return $this->nom; }
@@ -125,14 +125,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmail(): ?string { return $this->email; }
     public function setPermission(?bool $permission): self { $this->permission = $permission; return $this; }
     public function getPermission(): ?bool { return $this->permission; }
-    public function setStatut(?bool $statut): self { $this->statut = $statut; return $this; }
-    public function getStatut(): ?bool { return $this->statut; }
+    public function setStatut(bool $statut): self { $this->statut = $statut; return $this; }
+    public function getStatut(): bool { return $this->statut; }
     public function setVerificationToken(?string $verification_token): self { $this->verification_token = $verification_token; return $this; }
     public function getVerificationToken(): ?string { return $this->verification_token; }
     public function setIsVerified(?bool $is_verified): self { $this->is_verified = $is_verified; return $this; }
     public function isVerified(): ?bool { return $this->is_verified; }
+    public function getResetToken(): ?string { return $this->resetToken; }
+    public function setResetToken(?string $resetToken): self { $this->resetToken = $resetToken; return $this; }
 
-    // Relationships
     public function getContratSponsorings(): Collection { return $this->contratSponsorings; }
     public function addContratSponsoring(ContratSponsoring $contratSponsoring): self { if (!$this->contratSponsorings->contains($contratSponsoring)) { $this->contratSponsorings->add($contratSponsoring); } return $this; }
     public function removeContratSponsoring(ContratSponsoring $contratSponsoring): self { $this->contratSponsorings->removeElement($contratSponsoring); return $this; }
@@ -148,19 +149,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getReclamations(): Collection { return $this->reclamations; }
     public function addReclamation(Reclamation $reclamation): self { if (!$this->reclamations->contains($reclamation)) { $this->reclamations->add($reclamation); } return $this; }
     public function removeReclamation(Reclamation $reclamation): self { $this->reclamations->removeElement($reclamation); return $this; }
-
-    // Profil relationship
-    public function getProfil(): ?Profil
-    {
-        return $this->profil;
-    }
-
-    public function setProfil(?Profil $profil): self
-    {
-        $this->profil = $profil;
-        if ($profil && $profil->getUtilisateur() !== $this) {
-            $profil->setUtilisateur($this);
-        }
-        return $this;
-    }
+    public function getProfil(): ?Profil { return $this->profil; }
+    public function setProfil(?Profil $profil): self { $this->profil = $profil; if ($profil && $profil->getUtilisateur() !== $this) { $profil->setUtilisateur($this); } return $this; }
 }

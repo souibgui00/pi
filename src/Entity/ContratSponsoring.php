@@ -31,11 +31,6 @@ class ContratSponsoring
     #[Assert\NotBlank(message: "L'utilisateur est obligatoire.")]
     private ?Utilisateur $utilisateur = null;
 
-    #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'contratSponsorings')]
-    #[ORM\JoinColumn(name: 'id_evenementAssocie', referencedColumnName: 'id')]
-    #[Assert\NotBlank(message: "L'événement est obligatoire.")]
-    private ?Evenement $evenement = null;
-
     #[ORM\ManyToMany(targetEntity: Produitsponsoring::class, inversedBy: 'contratSponsorings')]
     #[ORM\JoinTable(
         name: 'contrat_produit_sponsoring',
@@ -90,17 +85,6 @@ class ContratSponsoring
     public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
-        return $this;
-    }
-
-    public function getEvenement(): ?Evenement
-    {
-        return $this->evenement;
-    }
-
-    public function setEvenement(?Evenement $evenement): self
-    {
-        $this->evenement = $evenement;
         return $this;
     }
 

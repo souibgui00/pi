@@ -30,30 +30,52 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Compléter votre profil</h1>
                         </div>
+
+                        <!-- Affichage des messages flash -->
                         {% for message in app.flashes('success') %}
-                            <div class="alert alert-success">{{ message }}</div>
+                            <div class="alert alert-success" role="alert">{{ message }}</div>
                         {% endfor %}
                         {% for message in app.flashes('warning') %}
-                            <div class="alert alert-warning">{{ message }}</div>
+                            <div class="alert alert-warning" role="alert">{{ message }}</div>
                         {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger" role="alert">{{ message }}</div>
+                        {% endfor %}
+
+                        <!-- Formulaire -->
                         {{ form_start(form, {'attr': {'class': 'user'}}) }}
+                        <!-- Erreurs globales du formulaire -->
+                        {{ form_errors(form) }}
+
                         <div class="form-group">
                             <label for="profil_email" class="sr-only">Email</label>
                             {{ form_widget(form.email, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Email'}}) }}
-                            {{ form_errors(form.email) }}
+                            {{ form_errors(form.email, {'attr': {'class': 'text-danger'}}) }}
                         </div>
+
                         <div class="form-group">
                             <label for="profil_num_tel" class="sr-only">Numéro de téléphone</label>
                             {{ form_widget(form.num_tel, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Numéro de téléphone'}}) }}
-                            {{ form_errors(form.num_tel) }}
+                            {{ form_errors(form.num_tel, {'attr': {'class': 'text-danger'}}) }}
                         </div>
+
                         <div class="form-group">
                             <label for="profil_adresse" class="sr-only">Adresse</label>
                             {{ form_widget(form.adresse, {'attr': {'class': 'form-control form-control-user', 'placeholder': 'Adresse'}}) }}
-                            {{ form_errors(form.adresse) }}
+                            {{ form_errors(form.adresse, {'attr': {'class': 'text-danger'}}) }}
                         </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox small">
+                                {{ form_widget(form.newsletter, {'attr': {'class': 'custom-control-input'}}) }}
+                                <label class="custom-control-label" for="profil_newsletter">S'inscrire à la newsletter</label>
+                            </div>
+                            {{ form_errors(form.newsletter, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+
                         <button type="submit" class="btn btn-primary btn-user btn-block">Enregistrer</button>
                         {{ form_end(form) }}
+
                         <hr>
                         <div class="text-center">
                             <a class="small" href="{{ path('app_profil_me') }}">Voir mon profil</a>
