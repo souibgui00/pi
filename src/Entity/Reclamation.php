@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use App\Repository\ReclamationRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 #[ORM\Table(name: 'reclamation')]
@@ -16,6 +15,49 @@ class Reclamation
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "Le message est obligatoire.")]
+    #[Assert\Length(
+        min: 10,
+        max: 255,
+        minMessage: "Le message doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le message ne peut pas dépasser {{ limit }} caractères."
+    )]
+    private ?string $message = null;
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "Le chemin de l'image est obligatoire.")]
+    private ?string $image = null;
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "Le mot de passe est obligatoire.")]
+    private ?string $pass = null;
+
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'reclamations')]
+    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L'utilisateur est obligatoire.")]
+    private ?Utilisateur $utilisateur = null;
+
+    #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'reclamations')]
+    #[ORM\JoinColumn(name: 'id_evenement', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L'événement est obligatoire.")]
+    private ?Evenement $evenement = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\Choice(
+        choices: ['en attente', 'traitée', 'rejetée'],
+        message: "Veuillez sélectionner un statut valide (en attente, traitée, rejetée)."
+    )]
+    private ?string $statut = null;
+
+    #[ORM\OneToMany(targetEntity: SuiviReclamation::class, mappedBy: 'reclamation')]
+    private Collection $suiviReclamations;
+
+    public function __construct()
+    {
+        $this->suiviReclamations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -28,9 +70,6 @@ class Reclamation
         return $this;
     }
 
-    #[ORM\Column(type: 'string', nullable: false)]
-    private ?string $message = null;
-
     public function getMessage(): ?string
     {
         return $this->message;
@@ -41,9 +80,6 @@ class Reclamation
         $this->message = $message;
         return $this;
     }
-
-    #[ORM\Column(type: 'string', nullable: false)]
-    private ?string $image = null;
 
     public function getImage(): ?string
     {
@@ -56,9 +92,6 @@ class Reclamation
         return $this;
     }
 
-    #[ORM\Column(type: 'string', nullable: false)]
-    private ?string $pass = null;
-
     public function getPass(): ?string
     {
         return $this->pass;
@@ -69,10 +102,6 @@ class Reclamation
         $this->pass = $pass;
         return $this;
     }
-
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'reclamations')]
-    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
-    private ?Utilisateur $utilisateur = null;
 
     public function getUtilisateur(): ?Utilisateur
     {
@@ -85,10 +114,6 @@ class Reclamation
         return $this;
     }
 
-    #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'reclamations')]
-    #[ORM\JoinColumn(name: 'id_evenement', referencedColumnName: 'id')]
-    private ?Evenement $evenement = null;
-
     public function getEvenement(): ?Evenement
     {
         return $this->evenement;
@@ -100,9 +125,6 @@ class Reclamation
         return $this;
     }
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $statut = null;
-
     public function getStatut(): ?string
     {
         return $this->statut;
@@ -112,14 +134,6 @@ class Reclamation
     {
         $this->statut = $statut;
         return $this;
-    }
-
-    #[ORM\OneToMany(targetEntity: SuiviReclamation::class, mappedBy: 'reclamation')]
-    private Collection $suiviReclamations;
-
-    public function __construct()
-    {
-        $this->suiviReclamations = new ArrayCollection();
     }
 
     /**
@@ -146,5 +160,4 @@ class Reclamation
         $this->getSuiviReclamations()->removeElement($suiviReclamation);
         return $this;
     }
-
 }

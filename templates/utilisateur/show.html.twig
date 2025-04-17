@@ -60,10 +60,7 @@
                         <th>Vérifié</th>
                         <td>{{ utilisateur.isVerified ? 'Oui' : 'Non' }}</td>
                     </tr>
-                    <tr>
-                        <th>Token de vérification</th>
-                        <td>{{ utilisateur.verificationToken ?: 'N/A' }}</td>
-                    </tr>
+                    
                     </tbody>
                 </table>
                 <a href="{{ path('app_utilisateur_index') }}" class="btn btn-secondary btn-user mt-3">Retour à la liste</a>

@@ -11,10 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
-use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class TransportType extends AbstractType
 {
@@ -25,13 +22,6 @@ class TransportType extends AbstractType
                 'label' => 'Date',
                 'widget' => 'single_text',
                 'attr' => ['class' => 'form-control'],
-                'constraints' => [
-                    new NotBlank(['message' => 'La date est obligatoire.']),
-                    new GreaterThanOrEqual([
-                        'value' => 'today',
-                        'message' => 'La date doit être aujourd’hui ou dans le futur.',
-                    ]),
-                ],
             ])
             ->add('heureDepart', TextType::class, [
                 'label' => 'Heure de départ',
@@ -41,8 +31,8 @@ class TransportType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'L’heure de départ est obligatoire.']),
-                    new Regex([
+                    new Assert\NotBlank(['message' => 'L’heure de départ est obligatoire.']),
+                    new Assert\Regex([
                         'pattern' => '/^([01]\d|2[0-3]):([0-5]\d)$/',
                         'message' => 'L’heure de départ doit être au format HH:MM (ex. 14:30).',
                     ]),
@@ -51,41 +41,14 @@ class TransportType extends AbstractType
             ->add('pointDepart', TextType::class, [
                 'label' => 'Point de départ',
                 'attr' => ['placeholder' => 'Entrez le point de départ', 'class' => 'form-control'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Le point de départ est obligatoire.']),
-                    new Length([
-                        'min' => 2,
-                        'max' => 100,
-                        'minMessage' => 'Le point de départ doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Le point de départ ne peut pas dépasser {{ limit }} caractères.',
-                    ]),
-                ],
             ])
             ->add('destination', TextType::class, [
                 'label' => 'Destination',
                 'attr' => ['placeholder' => 'Entrez la destination', 'class' => 'form-control'],
-                'constraints' => [
-                    new NotBlank(['message' => 'La destination est obligatoire.']),
-                    new Length([
-                        'min' => 2,
-                        'max' => 100,
-                        'minMessage' => 'La destination doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'La destination ne peut pas dépasser {{ limit }} caractères.',
-                    ]),
-                ],
             ])
             ->add('vehicule', TextType::class, [
                 'label' => 'Véhicule',
                 'attr' => ['placeholder' => 'Entrez le type de véhicule', 'class' => 'form-control'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Le véhicule est obligatoire.']),
-                    new Length([
-                        'min' => 2,
-                        'max' => 50,
-                        'minMessage' => 'Le véhicule doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Le véhicule ne peut pas dépasser {{ limit }} caractères.',
-                    ]),
-                ],
             ])
             ->add('evenement', EntityType::class, [
                 'class' => Evenement::class,
@@ -93,9 +56,6 @@ class TransportType extends AbstractType
                 'label' => 'Événement associé',
                 'placeholder' => 'Choisir un événement',
                 'attr' => ['class' => 'form-control'],
-                'constraints' => [
-                    new NotBlank(['message' => 'L’événement est obligatoire.']),
-                ],
             ])
             ->add('service', EntityType::class, [
                 'class' => Service::class,
@@ -105,9 +65,6 @@ class TransportType extends AbstractType
                 'label' => 'Service associé',
                 'placeholder' => 'Choisir un service',
                 'attr' => ['class' => 'form-control'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Le service est obligatoire.']),
-                ],
             ])
         ;
 
@@ -116,14 +73,14 @@ class TransportType extends AbstractType
             ->addModelTransformer(new CallbackTransformer(
                 function ($stringFromEntity) {
                     // From entity (string "HH:MM:SS") to form (string "HH:MM")
-                    return $stringFromEntity ? substr($stringFromEntity, 0, 5) : null;
+                    return $stringFromEntity ? substr($stringFromEntity->format('H:i:s'), 0, 5) : null;
                 },
                 function ($stringFromForm) {
-                    // From form (string "HH:MM") to entity (string "HH:MM:SS")
+                    // From form (string "HH:MM") to entity (DateTime "HH:MM:SS")
                     if (!$stringFromForm) {
                         return null;
                     }
-                    return $stringFromForm . ':00';
+                    return \DateTime::createFromFormat('H:i:s', $stringFromForm . ':00');
                 }
             ));
     }

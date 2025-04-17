@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
 use App\Repository\TransportRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TransportRepository::class)]
 #[ORM\Table(name: 'transport')]
@@ -17,6 +14,58 @@ class Transport
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
+
+    #[ORM\Column(type: 'date', nullable: false)]
+    #[Assert\NotBlank(message: "La date est obligatoire.")]
+    #[Assert\GreaterThanOrEqual(
+        value: 'today',
+        message: "La date doit être aujourd’hui ou dans le futur."
+    )]
+    private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(type: 'time', nullable: false)]
+    #[Assert\NotBlank(message: "L’heure de départ est obligatoire.")]
+    private ?\DateTime $heureDepart = null;
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "Le point de départ est obligatoire.")]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: "Le point de départ doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le point de départ ne peut pas dépasser {{ limit }} caractères."
+    )]
+    private ?string $pointDepart = null;
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "La destination est obligatoire.")]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: "La destination doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "La destination ne peut pas dépasser {{ limit }} caractères."
+    )]
+    private ?string $destination = null;
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "Le véhicule est obligatoire.")]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: "Le véhicule doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le véhicule ne peut pas dépasser {{ limit }} caractères."
+    )]
+    private ?string $vehicule = null;
+
+    #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'transports')]
+    #[ORM\JoinColumn(name: 'id_evenementAssocie', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L’événement est obligatoire.")]
+    private ?Evenement $evenement = null;
+
+    #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'transports')]
+    #[ORM\JoinColumn(name: 'id_service', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "Le service est obligatoire.")]
+    private ?Service $service = null;
 
     public function getId(): ?int
     {
@@ -29,79 +78,60 @@ class Transport
         return $this;
     }
 
-    #[ORM\Column(type: 'date', nullable: true)]
-    private ?\DateTimeInterface $date = null;
-
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(?\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
         return $this;
     }
-
-    #[ORM\Column(type: 'time', nullable: true)]
-    private ?\DateTime $heureDepart = null;
 
     public function getHeureDepart(): ?\DateTime
     {
         return $this->heureDepart;
     }
 
-    public function setHeureDepart(?\DateTime $heureDepart): self
+    public function setHeureDepart(\DateTime $heureDepart): self
     {
         $this->heureDepart = $heureDepart;
         return $this;
     }
-
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $pointDepart = null;
 
     public function getPointDepart(): ?string
     {
         return $this->pointDepart;
     }
 
-    public function setPointDepart(?string $pointDepart): self
+    public function setPointDepart(string $pointDepart): self
     {
         $this->pointDepart = $pointDepart;
         return $this;
     }
-
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $destination = null;
 
     public function getDestination(): ?string
     {
         return $this->destination;
     }
 
-    public function setDestination(?string $destination): self
+    public function setDestination(string $destination): self
     {
         $this->destination = $destination;
         return $this;
     }
-
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $vehicule = null;
 
     public function getVehicule(): ?string
     {
         return $this->vehicule;
     }
 
-    public function setVehicule(?string $vehicule): self
+    public function setVehicule(string $vehicule): self
     {
         $this->vehicule = $vehicule;
         return $this;
     }
-
-    #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'transports')]
-    #[ORM\JoinColumn(name: 'id_evenementAssocie', referencedColumnName: 'id')]
-    private ?Evenement $evenement = null;
 
     public function getEvenement(): ?Evenement
     {
@@ -114,10 +144,6 @@ class Transport
         return $this;
     }
 
-    #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'transports')]
-    #[ORM\JoinColumn(name: 'id_service', referencedColumnName: 'id')]
-    private ?Service $service = null;
-
     public function getService(): ?Service
     {
         return $this->service;
@@ -128,5 +154,4 @@ class Transport
         $this->service = $service;
         return $this;
     }
-
 }

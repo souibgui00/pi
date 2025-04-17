@@ -14,7 +14,8 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('email', TextType::class, [
-                'disabled' => true, // L'email ne doit pas être modifiable
+                'disabled' => true,
+                'label' => 'Email',
             ])
             ->add('num_tel', TextType::class, [
                 'label' => 'Numéro de téléphone',
@@ -26,7 +27,7 @@ class ProfilType extends AbstractType
             ])
             ->add('newsletter', CheckboxType::class, [
                 'label' => 'S\'inscrire à la newsletter',
-                'required' => false, // Non obligatoire
+                'required' => false,
             ])
         ;
     }

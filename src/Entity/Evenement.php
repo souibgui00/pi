@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
@@ -20,6 +19,7 @@ class Evenement
 
     #[ORM\Column(type: 'string', nullable: false)]
     #[Assert\NotBlank(message: "Le nom de l'événement est obligatoire.")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le nom doit contenir au moins {{ limit }} caractères.", maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $nom = null;
 
     #[ORM\Column(type: 'text', nullable: false)]
@@ -29,26 +29,31 @@ class Evenement
 
     #[ORM\Column(type: 'datetime_immutable', nullable: false)]
     #[Assert\NotBlank(message: "La date est obligatoire.")]
+    #[Assert\GreaterThanOrEqual("now", message: "La date doit être dans le futur.")]
     private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
     #[Assert\NotBlank(message: "Le lieu est obligatoire.")]
+    #[Assert\Length(max: 255, maxMessage: "Le lieu ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $lieu = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
     #[Assert\NotBlank(message: "Le statut est obligatoire.")]
+    #[Assert\Choice(choices: ['Actif', 'en attente', 'annulé'], message: "Veuillez sélectionner un statut valide.")]
     private ?string $statut = null;
 
     #[ORM\Column(type: 'integer', nullable: false)]
     #[Assert\NotBlank(message: "La capacité maximale est obligatoire.")]
     #[Assert\Positive(message: "La capacité maximale doit être positive.")]
+    #[Assert\Range(min: 1, max: 10000, notInRangeMessage: "La capacité doit être comprise entre {{ min }} et {{ max }}.")]
     private ?int $capacite_max = null;
 
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $image = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
     #[Assert\NotBlank(message: "Le type est obligatoire.")]
+    #[Assert\Length(max: 100, maxMessage: "Le type ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $type = null;
 
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'evenement', cascade: ['remove'], orphanRemoval: true)]
@@ -97,7 +102,7 @@ class Evenement
     public function setCapaciteMax(int $capacite_max): self { $this->capacite_max = $capacite_max; return $this; }
 
     public function getImage(): ?string { return $this->image; }
-    public function setImage(string $image): self { $this->image = $image; return $this; }
+    public function setImage(?string $image): self { $this->image = $image; return $this; }
 
     public function getType(): ?string { return $this->type; }
     public function setType(string $type): self { $this->type = $type; return $this; }

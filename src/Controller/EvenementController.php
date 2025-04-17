@@ -46,6 +46,24 @@ class EvenementController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'app_evenement_delete', methods: ['POST'])]
+    public function delete(Request $request, ?Evenement $evenement, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if (!$evenement) {
+            $this->addFlash('error', 'Evenement non trouvé.');
+            return $this->redirectToRoute('app_evenement_index');
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($evenement);
+            $entityManager->flush();
+            $this->addFlash('success', 'Evenement supprimé avec succès !');
+        }
+
+        return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/admin/evenement', name: 'app_evenement_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {

@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class ContratSponsoringType extends AbstractType
 {
@@ -41,9 +43,9 @@ class ContratSponsoringType extends AbstractType
             ])
             ->add('produitsponsorings', EntityType::class, [
                 'class' => Produitsponsoring::class,
-                'choice_label' => 'nom', // Assurez-vous que Produitsponsoring a un champ 'nom'
+                'choice_label' => 'nom',
                 'multiple' => true,
-                'expanded' => false, // Liste déroulante multiple (au lieu de checkboxes)
+                'expanded' => false,
                 'label' => 'Produits de sponsoring',
                 'attr' => ['class' => 'form-control'],
             ])

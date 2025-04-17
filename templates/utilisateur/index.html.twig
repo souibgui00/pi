@@ -28,7 +28,6 @@
                             <th>Nationalité</th>
                             <th>Genre</th>
                             <th>Email</th>
-                            <th>Permission</th>
                             <th>Statut</th>
                             <th>Vérifié</th>
                             <th>Actions</th>
@@ -43,7 +42,6 @@
                                 <td>{{ utilisateur.nationalite }}</td>
                                 <td>{{ utilisateur.genre }}</td>
                                 <td>{{ utilisateur.email }}</td>
-                                <td>{{ utilisateur.permission ? 'Oui' : 'Non' }}</td>
                                 <td>
                                     {% if utilisateur.statut %}
                                         <span class="badge badge-success">Actif</span>

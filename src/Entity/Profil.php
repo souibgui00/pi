@@ -3,6 +3,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProfilRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProfilRepository::class)]
 #[ORM\Table(name: 'profil')]
@@ -18,15 +19,25 @@ class Profil
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "L'email est obligatoire.")]
+    #[Assert\Email(message: "L'email n'est pas valide.")]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\Regex(
+        pattern: "/^\+?[1-9]\d{1,14}$/",
+        message: "Le numéro de téléphone doit être valide (ex. +1234567890 ou 0123456789)."
+    )]
     private ?string $num_tel = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "L'adresse ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $adresse = null;
 
-    #[ORM\Column(type: 'boolean', nullable: true)] // Nouveau champ
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $newsletter = null;
 
     public function getId(): ?int

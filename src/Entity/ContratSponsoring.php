@@ -16,12 +16,12 @@ class ContratSponsoring
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'float', nullable: false)]
     #[Assert\NotBlank(message: "Le montant est obligatoire.")]
     #[Assert\Positive(message: "Le montant doit être positif.")]
     private ?float $montant = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: false)]
     #[Assert\NotBlank(message: "La description est obligatoire.")]
     #[Assert\Length(min: 10, minMessage: "La description doit contenir au moins {{ limit }} caractères.")]
     private ?string $description = null;
@@ -30,6 +30,11 @@ class ContratSponsoring
     #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id')]
     #[Assert\NotBlank(message: "L'utilisateur est obligatoire.")]
     private ?Utilisateur $utilisateur = null;
+
+    #[ORM\ManyToOne(targetEntity: Evenement::class)]
+    #[ORM\JoinColumn(name: 'id_evenement', referencedColumnName: 'id')]
+    #[Assert\NotBlank(message: "L'événement est obligatoire.")]
+    private ?Evenement $evenement = null;
 
     #[ORM\ManyToMany(targetEntity: Produitsponsoring::class, inversedBy: 'contratSponsorings')]
     #[ORM\JoinTable(
@@ -60,7 +65,7 @@ class ContratSponsoring
         return $this->montant;
     }
 
-    public function setMontant(?float $montant): self
+    public function setMontant(float $montant): self
     {
         $this->montant = $montant;
         return $this;
@@ -71,7 +76,7 @@ class ContratSponsoring
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
@@ -85,6 +90,17 @@ class ContratSponsoring
     public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
+        return $this;
+    }
+
+    public function getEvenement(): ?Evenement
+    {
+        return $this->evenement;
+    }
+
+    public function setEvenement(?Evenement $evenement): self
+    {
+        $this->evenement = $evenement;
         return $this;
     }
 

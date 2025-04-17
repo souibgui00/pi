@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EvenementType extends AbstractType
 {
@@ -19,11 +20,10 @@ class EvenementType extends AbstractType
             ->add('nom', TextType::class)
             ->add('description', TextareaType::class)
             ->add('date', DateTimeType::class, [
-                'widget' => 'single_text', // Champ texte avec picker
-                'html5' => true, // Calendrier natif HTML5
-                'attr' => ['class' => 'form-control'], // Style Bootstrap
-                'input' => 'datetime_immutable', // Retourne DateTimeImmutable
-                // Pas de 'format' ici, HTML5 impose yyyy-MM-ddTHH:mm
+                'widget' => 'single_text',
+                'html5' => true,
+                'attr' => ['class' => 'form-control'],
+                'input' => 'datetime_immutable',
             ])
             ->add('lieu', TextType::class)
             ->add('statut', TextType::class)
@@ -32,6 +32,14 @@ class EvenementType extends AbstractType
                 'label' => 'Image (JPG, PNG)',
                 'mapped' => false,
                 'required' => false,
+                'constraints' => [
+                    new Assert\File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => ['image/jpeg', 'image/png'],
+                        'maxSizeMessage' => 'L\'image ne doit pas dépasser {{ limit }}.',
+                        'mimeTypesMessage' => 'Veuillez uploader une image au format JPG ou PNG.',
+                    ]),
+                ],
             ])
             ->add('type', TextType::class)
         ;

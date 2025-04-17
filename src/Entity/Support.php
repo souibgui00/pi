@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\SupportRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SupportRepository::class)]
 #[ORM\Table(name: 'support')]
@@ -16,9 +17,25 @@ class Support
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "L’URL ne peut pas dépasser {{ limit }} caractères."
+    )]
+    #[Assert\Url(message: "Veuillez entrer une URL valide (ex. https://example.com).")]
     private ?string $url = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "Le type est obligatoire.")]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: "Le type doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le type ne peut pas dépasser {{ limit }} caractères."
+    )]
+    #[Assert\Choice(
+        choices: ['image', 'video', 'document'],
+        message: "Le type doit être 'image', 'video' ou 'document'."
+    )]
     private ?string $type = null;
 
     #[ORM\ManyToOne(targetEntity: Evenement::class, inversedBy: 'supports')]
@@ -26,6 +43,13 @@ class Support
     private ?Evenement $evenement = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: "Le titre est obligatoire.")]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: "Le titre doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le titre ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $titre = null;
 
     #[ORM\OneToMany(targetEntity: Supportpermission::class, mappedBy: 'support')]
@@ -63,7 +87,7 @@ class Support
         return $this->type;
     }
 
-    public function setType(?string $type): self
+    public function setType(string $type): self
     {
         $this->type = $type;
         return $this;
